@@ -1,0 +1,19 @@
+services:
+  postgresql:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: "BOUNCESHOP"
+      POSTGRES_USER: "BOUNCEUSER"
+      POSTGRES_PASSWORD: "BounceShop!13"
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+volumes:
+  data:
+networks:
+  app-network:
+    driver: bridge
