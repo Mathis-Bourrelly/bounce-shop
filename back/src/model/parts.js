@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('../core/postgres');
-const parts = sequelize.define('parts', {
-        partsID: {
+const parts = sequelize.define('Parts', {
+        partID: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -15,7 +15,7 @@ const parts = sequelize.define('parts', {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        isRow: {
+        isRaw: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
@@ -27,39 +27,26 @@ const parts = sequelize.define('parts', {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        title_key: {
-            type: DataTypes.CHAR,
+        quantity: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
-        background: {
-            type: DataTypes.CHAR,
+        partListID: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
-        brandImage: {
-            type: DataTypes.CHAR,
+        supplierID: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
-        image: {
-            type: DataTypes.CHAR,
+        label: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
-        author_key: {
-            type: DataTypes.CHAR,
+        description: {
+            type: DataTypes.TEXT,
             allowNull: false,
         },
-        description_key: {
-            type: DataTypes.CHAR,
-            allowNull: false,
-        },
-        isAvailable: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-        },
-        price: {
-            type: DataTypes.CHAR,
-            allowNull: false,
-        },
-
     },
     {
         timestamps: false,
@@ -68,4 +55,4 @@ const parts = sequelize.define('parts', {
     }
 )
 
-module.exports = products;
+module.exports = parts;

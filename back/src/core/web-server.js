@@ -1,5 +1,8 @@
 const express = require('express');
-const { initializeConfigMiddlewares, initializeErrorMiddlwares } = require('./middlewares');
+const { initializeConfigMiddlewares, initializeErrorMiddlewares } = require('./middlewares');
+const partsRoute = require('../route/parts.route');
+const usersRoute = require('../route/users.route');
+const loginRoute = require('../route/login.route');
 
 const {sequelize} = require('./postgres');
 class WebServer {
@@ -11,7 +14,7 @@ class WebServer {
     this.app = express();
     initializeConfigMiddlewares(this.app);
     this._initializeRoutes();
-    initializeErrorMiddlwares(this.app);
+    initializeErrorMiddlewares(this.app);
     sequelize.sync()
   }
 
@@ -26,7 +29,9 @@ class WebServer {
   }
 
   _initializeRoutes() {
-    //TODO ROUTE
+    this.app.use('/parts',partsRoute.initializeRoutes());
+    this.app.use('/users',usersRoute.initializeRoutes());
+    this.app.use('/',loginRoute.initializeRoutes());
   }
 }
 

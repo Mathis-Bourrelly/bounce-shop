@@ -1,142 +1,144 @@
 -- Table: ValidMachine
-CREATE TABLE ValidMachine (
-    validMachineId SERIAL PRIMARY KEY
+CREATE TABLE "ValidMachines" (
+    "validMachineID" SERIAL PRIMARY KEY
 );
 
 -- Table: Machine
-CREATE TABLE Machine (
-    machineId SERIAL PRIMARY KEY
+CREATE TABLE "Machines" (
+    "machineID" SERIAL PRIMARY KEY
 );
 
 -- Table: JobQualificationList
-CREATE TABLE JobQualificationList (
-    JobQualificationListId SERIAL PRIMARY KEY
+CREATE TABLE "JobQualificationList" (
+    "JobQualificationListID" SERIAL PRIMARY KEY
 );
 
 -- Table: WorkStation
-CREATE TABLE WorkStation (
-    workStationId SERIAL PRIMARY KEY,
-    validMachineId INTEGER REFERENCES ValidMachine(validMachineId),
-    JobQualificationListId INTEGER REFERENCES JobQualificationList(JobQualificationListId)
+CREATE TABLE "WorkStations" (
+    "workStationID" SERIAL PRIMARY KEY,
+    "validMachineID" INTEGER REFERENCES "ValidMachines"("validMachineID"),
+    "JobQualificationListID" INTEGER REFERENCES "JobQualificationList"("JobQualificationListID")
 );
 
 -- Table: Operation
-CREATE TABLE Operation (
-    operationId SERIAL PRIMARY KEY,
-    rangeId INTEGER,
-    workStationId INTEGER REFERENCES WorkStation(workStationId),
-    machineId INTEGER REFERENCES Machine(machineId),
+CREATE TABLE "Operations" (
+    "operationID" SERIAL PRIMARY KEY,
+    "rangeID" INTEGER,
+    "workStationID" INTEGER REFERENCES "WorkStations"("workStationID"),
+    "machineID" INTEGER REFERENCES "Machines"("machineID"),
     workTime INTEGER
 );
 
 -- Table: OperationHistory
-CREATE TABLE OperationHistory (
-    operationId INTEGER REFERENCES Operation(operationId),
-    rangeId INTEGER,
-    workStationId INTEGER,
-    machineId INTEGER,
+CREATE TABLE "OperationHistory" (
+    "operationID" INTEGER REFERENCES "Operations"("operationID"),
+    "rangeID" INTEGER,
+    "workStationID" INTEGER,
+    "machineID" INTEGER,
     workTime INTEGER,
-    PRIMARY KEY (operationId, rangeId)
+    PRIMARY KEY("operationID", "rangeID")
 );
 
 -- Table: Supplier
-CREATE TABLE Supplier (
-    supplierId SERIAL PRIMARY KEY,
+CREATE TABLE "Suppliers" (
+    "supplierID" SERIAL PRIMARY KEY,
     name TEXT
 );
 
 -- Table: Part
-CREATE TABLE Part (
-    partId SERIAL PRIMARY KEY,
-    isBought BOOLEAN,
-    isDeliverables BOOLEAN,
-    isRaw BOOLEAN,
-    isIntermediate BOOLEAN,
-    rangeId INTEGER,
+CREATE TABLE "Parts" (
+    "partID" SERIAL PRIMARY KEY,
+    "isBought" BOOLEAN,
+    "isDeliverables" BOOLEAN,
+    "isRaw" BOOLEAN,
+    "isIntermediate" BOOLEAN,
+    "rangeID" INTEGER,
     quantity INTEGER,
-    priceId INTEGER,
-    partListId INTEGER,
-    supplierId INTEGER REFERENCES Supplier(supplierId),
-    label TEXT
+    "priceID" INTEGER,
+    "partListID" INTEGER,
+    "supplierID" INTEGER REFERENCES "Suppliers"("supplierID"),
+    label VARCHAR,
+    description TEXT
 );
 
--- Table: PreviousPartId
-CREATE TABLE PreviousPartId (
-    partId INTEGER,
+-- Table: PreviousPart
+CREATE TABLE "PreviousParts" (
+    "partID" INTEGER,
     quantity INTEGER,
-    partListId INTEGER,
-    PRIMARY KEY (partId, partListId)
+    "partListID" INTEGER,
+    PRIMARY KEY("partID", "partListID")
 );
 
 -- Table: Partlist
-CREATE TABLE Partlist (
-    partListId SERIAL PRIMARY KEY,
-    partId INTEGER REFERENCES Part(partId)
+CREATE TABLE "Partlist" (
+    "partListID" SERIAL PRIMARY KEY,
+    "partID" INTEGER REFERENCES "Parts"("partID")
 );
 
 -- Table: User
-CREATE TABLE User (
-    userId SERIAL PRIMARY KEY,
+CREATE TABLE "Users" (
+    "userID" SERIAL PRIMARY KEY,
     name TEXT,
     password TEXT,
     email TEXT,
     role TEXT,
-    JobQualificationListId INTEGER REFERENCES JobQualificationList(JobQualificationListId)
+    "JobQualificationListID" INTEGER REFERENCES "JobQualificationList"("JobQualificationListID")
 );
 
 -- Table: Range
-CREATE TABLE Range (
-    rangeId SERIAL PRIMARY KEY,
-    partId INTEGER REFERENCES Part(partId),
-    userId INTEGER REFERENCES User(userId)
+CREATE TABLE "Ranges" (
+    "rangeID" SERIAL PRIMARY KEY,
+    "partID" INTEGER REFERENCES "Parts"("partID"),
+    "userID" INTEGER REFERENCES "Users"("userID")
 );
 
 -- Table: Price
-CREATE TABLE Price (
-    priceId SERIAL PRIMARY KEY,
+CREATE TABLE "Prices" (
+    "priceID" SERIAL PRIMARY KEY,
     price INTEGER,
     date DATE
 );
 
 -- Table: QuoteLine
-CREATE TABLE QuoteLine (
-        devisLineId SERIAL PRIMARY KEY,
-        partId INTEGER REFERENCES Part(partId),
+CREATE TABLE "QuoteLines" (
+        "devisLineID" SERIAL PRIMARY KEY,
+        "partID" INTEGER REFERENCES "Parts"("partID"),
         quantity INTEGER,
         price INTEGER,
-        devisId INTEGER
+        "devisID" INTEGER
 );
 
 -- Table: Quote
-CREATE TABLE Quote (
-    devisId SERIAL PRIMARY KEY,
-    filePath TEXT,
-    dateCrea DATE,
-    dateValid DATE
+CREATE TABLE "Quotes" (
+    "devisID" SERIAL PRIMARY KEY,
+    "filePath" TEXT,
+    "dateCreation" DATE,
+    "dateValID" DATE
 );
 
 -- Table: OrderLine
-CREATE TABLE OrderLine (
-        orderLineId SERIAL PRIMARY KEY,
-        partId INTEGER REFERENCES Part(partId),
+CREATE TABLE "OrderLines" (
+        "orderLineID" SERIAL PRIMARY KEY,
+        "partID" INTEGER REFERENCES "Parts"("partID"),
         quantity INTEGER,
         price INTEGER,
-        orderId INTEGER
+        "orderID" INTEGER
 );
 
 -- Table: Order
-CREATE TABLE "Order" (
-      orderId SERIAL PRIMARY KEY,
+CREATE TABLE "Orders" (
+      "orderID" SERIAL PRIMARY KEY,
       date DATE,
-      clientName TEXT
+      "clientName" TEXT
 );
 
 -- Establishing relationships between Quote and QuoteLine
-ALTER TABLE QuoteLine
+ALTER TABLE "QuoteLines"
     ADD CONSTRAINT fk_Quote_QuoteLine
-        FOREIGN KEY (devisId) REFERENCES Quote(devisId);
+        FOREIGN KEY("devisID") REFERENCES "Quotes"("devisID");
 
 -- Establishing relationships between Order and OrderLine
-ALTER TABLE OrderLine
+ALTER TABLE "OrderLines"
     ADD CONSTRAINT fk_Order_OrderLine
-        FOREIGN KEY (orderId) REFERENCES "Order"(orderId);
+        FOREIGN KEY("orderID") REFERENCES "Orders"("orderID");
+

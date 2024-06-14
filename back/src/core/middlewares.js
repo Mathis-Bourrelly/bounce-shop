@@ -2,8 +2,24 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const {DateTime} = require('luxon');
 let cors = require('cors')
+var { expressjwt: jwt } = require("express-jwt");
 
-const initJsonHandlerMiddlware = (app) => app.use(express.json());
+
+const initJsonHandlerMiddleware = (app) => app.use(express.json());
+
+function initJwtMiddleware(app) {
+    app.use(
+        jwt({
+            secret: process.env.MOTDEPASSEAPP,
+            algorithms: ['HS256'],
+        }).unless({
+            path: [
+                '/login',
+            ],
+        }),
+    );
+}
+
 
 const initFileUploadMiddleware = (app) => {
     app.use(
@@ -16,14 +32,14 @@ const initFileUploadMiddleware = (app) => {
     );
 }
 
-const initCorsMiddlware = (app) => {
+const initCorsMiddleware = (app) => {
     app.use(cors());
     console.log("cors enable")
 }
-const staticMiddlware = (app) => {
+const staticMiddleware = (app) => {
     app.use(express.static(__dirname + "/../../public"))
 }
-const initLoggerMiddlware = (app) => {
+const initLoggerMiddleware = (app) => {
     app.use((req, res, next) => {
         const begin = new DateTime(new Date());
 
@@ -51,17 +67,17 @@ const initLoggerMiddlware = (app) => {
         next();
     });
 };
-
 exports.initializeConfigMiddlewares = (app) => {
-    initJsonHandlerMiddlware(app);
-    initLoggerMiddlware(app);
-    initCorsMiddlware(app);
-    staticMiddlware(app);
+    initJsonHandlerMiddleware(app);
+    initJwtMiddleware(app);
+    initLoggerMiddleware(app);
+    initCorsMiddleware(app);
+    staticMiddleware(app);
     initFileUploadMiddleware(app);
 
 }
 
-exports.initializeErrorMiddlwares = (app) => {
+exports.initializeErrorMiddlewares = (app) => {
     app.use((err, req, res, next) => {
         res.status(500).send(err.message);
     });

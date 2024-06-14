@@ -1,4 +1,27 @@
 services:
+  nodejs:
+    depends_on:
+      - postgresql
+    container_name: nodejs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+      - /back/node_modules
+    environment:
+      - DB_USER=BOUNCEUSER
+      - DB_PASSWORD=BounceShop!13
+      - DB_NAME=BOUNCESHOP
+      - PORT=5432
+      - HOST=postgresql
+      - MOTDEPASSEAPP=Bounc3sh0p!13
+    command: npm run start
+    networks:
+      - app-network
+
   postgresql:
     image: postgres:latest
     restart: always
@@ -6,14 +29,11 @@ services:
       POSTGRES_DB: "BOUNCESHOP"
       POSTGRES_USER: "BOUNCEUSER"
       POSTGRES_PASSWORD: "BounceShop!13"
-    volumes:
-      - data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - app-network
-volumes:
-  data:
+
 networks:
   app-network:
     driver: bridge
