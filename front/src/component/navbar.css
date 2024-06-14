@@ -1,0 +1,9 @@
+.navbar{
+    display: flex;
+    background: #ffffff;
+    height: 50px;
+    width: auto;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.04) 0 4px 12px;
+}
