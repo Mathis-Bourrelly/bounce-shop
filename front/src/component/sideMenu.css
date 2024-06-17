@@ -3,30 +3,57 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 200px;
+    width: 60px;
     background-color: #ffffff;
     border-right: solid #E0E0E0 2px;
     display: flex;
     flex-direction: column;
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.side-menu:hover {
+    width: 250px; /* Déplié */
+}
+
+.side-logo-container {
+    display: flex;
+    padding: 8px;
+    height: 54px;
+    width: auto;
     align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
 }
 
-.side-menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+.side-title {
+    font-size: 20px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    transition: width 0.3s ease;
 }
 
-.side-menu ul li {
-    margin: 20px 0;
+.side-menu:hover .side-title {
+    width: 100%;
+    white-space: nowrap;
 }
 
-.side-menu ul li a {
-    color: white;
-    text-decoration: none;
+.side-content{
+    display: grid;
+}
+
+.side-sub-title{
+    opacity: 0;
     font-size: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    justify-self: center;
+    padding-bottom: 8px;
 }
 
-.side-menu ul li a:hover {
-    text-decoration: underline;
+.side-menu:hover .side-sub-title {
+    opacity: 100%;
 }

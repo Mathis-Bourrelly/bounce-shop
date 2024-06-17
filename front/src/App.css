@@ -1,0 +1,34 @@
+.btn-light{
+    height: 40px;
+    width: auto;
+    border-radius: 8px;
+    background: #EEEEEE;
+    color: #000000;
+    border: solid 0;
+    padding: 0 16px 0 16px;
+}
+
+.btn-dark{
+    height: 40px;
+    width: auto;
+    border-radius: 8px;
+    background: #000000;
+    color: #ffffff;
+    border: solid 0;
+    padding: 0 16px 0 16px;
+
+}
+
+.btn-light:hover {
+    background: #CCCCCC; /* Couleur de fond lors du survol */
+    color: #000000; /* Couleur du texte lors du survol */
+}
+.btn-dark:hover {
+    background: #333333; /* Couleur de fond lors du survol */
+    color: #ffffff; /* Couleur du texte lors du survol */
+}
+
+.content{
+    margin-left: 70px;
+    margin-top: 10px;
+}

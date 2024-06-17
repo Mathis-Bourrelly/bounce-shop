@@ -1,9 +1,19 @@
 .navbar{
     display: flex;
     background: #ffffff;
-    height: 50px;
+    color: black;
+    height: 70px;
     width: auto;
     justify-content: space-between;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.04) 0 4px 12px;
+
+}
+.nav-btn-container{
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+}
+.nav-title{
+    margin-left: 70px;
 }

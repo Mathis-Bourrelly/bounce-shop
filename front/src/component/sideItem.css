@@ -1,0 +1,23 @@
+.side-item-container{
+    display: flex;
+    padding: 5px;
+    gap: 2px;
+    align-items: center;
+}
+
+.side-item-title{
+    opacity: 0;
+}
+
+.side-menu:hover .side-item-title {
+    opacity: 100%;
+}
+
+.side-item-image{
+    padding-left: 10px;
+}
+
+.side-item-container:hover  {
+    background: #E0E0E0!important;
+    cursor: pointer;
+}

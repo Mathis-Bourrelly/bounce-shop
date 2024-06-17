@@ -1,15 +1,15 @@
 import React from "react";
 import "./navbar.css"
-const Navbar = () => {
+const Navbar = ({page}) => {
 
     return (
-        <div className="navbar">
-            <div>User</div>
-            <div>
-                <button>Account</button>
-                <button>Logout</button>
+        <nav className="navbar">
+            <div className="nav-title">{page}</div>
+            <div className="nav-btn-container">
+                <button className="btn-light">Account</button>
+                <button className="btn-dark">Logout</button>
             </div>
-        </div>
+        </nav>
     );
 }
 
