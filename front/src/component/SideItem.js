@@ -1,5 +1,5 @@
 import React from "react";
-import "./sideItem.css"
+import "./css/sideItem.css"
 
 const SideItem = ({page, name, title, icon}) => {
 

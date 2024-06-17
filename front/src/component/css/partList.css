@@ -1,0 +1,92 @@
+.table-container {
+    padding: 20px;
+}
+
+th{
+    white-space: nowrap;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.04) 0 4px 6px;
+}
+
+.sortable-column{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+thead th:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+thead th:first-child {
+    border-radius: 8px 0 0 0;
+}
+
+
+/* Cibler la première cellule de la dernière ligne */
+.styled-table tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 8px;
+}
+
+/* Cibler la dernière cellule de la dernière ligne */
+.styled-table tbody tr:last-child td:last-child {
+    border-radius:  0 0 8px 0;
+}
+
+.styled-table thead tr {
+    background-color: #f2f2f2;
+    text-align: left;
+    font-weight: bold;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-top: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.range-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 8px;
+    background-color: #e0e0e0;
+}
+
+.type-badge {
+    font-size: 14px;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+.type-badge.intermediate {
+    background-color: #f7d9c4;
+    color: #8c6239;
+}
+
+.type-badge.raw {
+    background-color: #f7f1c4;
+    color: #8c8c39;
+}
+
+.type-badge.bought {
+    background-color: #c4e5f7;
+    color: #396c8c;
+}
+
+.type-badge.deliverable {
+    background-color: #c4f7c4;
+    color: #398c39;
+}

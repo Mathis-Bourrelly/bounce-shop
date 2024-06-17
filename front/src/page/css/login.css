@@ -1,0 +1,12 @@
+.forgot-password{
+    font-size: 12px;
+}
+
+.login-form{
+    width: 400px;
+}
+
+.form-group{
+    display: flex;
+    justify-content: space-between;
+}

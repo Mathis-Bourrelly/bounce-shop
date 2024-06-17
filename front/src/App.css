@@ -19,16 +19,65 @@
 
 }
 
+.btn-color{
+    height: 40px;
+    width: auto;
+    border-radius: 8px;
+    background: #CA0610;
+    color: #ffffff;
+    border: solid 0;
+    padding: 0 16px 0 16px;
+}
+
 .btn-light:hover {
-    background: #CCCCCC; /* Couleur de fond lors du survol */
-    color: #000000; /* Couleur du texte lors du survol */
+    background: #CCCCCC;
+    cursor: pointer;
 }
 .btn-dark:hover {
-    background: #333333; /* Couleur de fond lors du survol */
-    color: #ffffff; /* Couleur du texte lors du survol */
+    background: #333333;
+    cursor: pointer;
+}
+
+.btn-color:hover {
+    background: #d33841;
+    cursor: pointer;
 }
 
 .content{
     margin-left: 70px;
     margin-top: 10px;
+}
+
+.card{
+    border-radius: 8px;
+    background: #ffffff;
+    display: flex;
+    padding: 16px;
+    width: fit-content;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.04) 0 4px 6px;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    margin: 100px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input{
+    border-radius: 8px;
+    border: solid 2px #E0E0E0;
+    height: 32px;
+    font-size: 16px;
+}
+
+a{
+    color: #CA0610;
 }

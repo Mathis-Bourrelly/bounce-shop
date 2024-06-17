@@ -7,7 +7,16 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.04) 0 4px 12px;
-
+}
+.full-navbar{
+    display: flex;
+    background: #ffffff;
+    color: black;
+    height: 100px;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.04) 0 4px 12px;
 }
 .nav-btn-container{
     display: flex;
@@ -16,4 +25,10 @@
 }
 .nav-title{
     margin-left: 70px;
+    font-weight: bold;
+    font-size: 30px;
+}
+.full-nav-title{
+    font-weight: bold;
+    font-size: 40px;
 }
