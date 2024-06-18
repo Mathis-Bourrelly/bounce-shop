@@ -44,7 +44,6 @@ const initLoggerMiddleware = (app) => {
         const begin = new DateTime(new Date());
 
         res.on('finish', () => {
-            const { DateTime } = require('luxon');
             const requestDate = begin.toFormat('dd/MM/yyyy HH:mm:ss.SSS');
             const remoteIP = `IP: ${req.socket.remoteAddress}`;
             const urlInfo = `${req.baseUrl}${req.path}`
