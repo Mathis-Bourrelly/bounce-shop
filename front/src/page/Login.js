@@ -2,17 +2,33 @@ import React, {useState} from "react"
 import FullNavbar from "../component/FullNavbar";
 import './css/login.css';
 import Api from "../API";
+import {useNavigate} from "react-router-dom";
+
 
 const Login = () => {
-const api = new Api()
-
+    const api = new Api()
+    let navigate = useNavigate()
+    function navigateTo(route) {
+        navigate(route)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        document.getElementById("alert-password").style.display = "none"
+        document.getElementById("alert-server").style.display = "none"
         const email = document.getElementById("email").value
         const password = document.getElementById("password").value
-        const token = await api.login(email, password)
-        localStorage.setItem("token", token)
+        const response = await api.login(email, password)
+        console.log(response)
+        if (response === "wrong_password"){
+            document.getElementById("alert-password").style.display = "block"
+        }else if(response === "server_error"){
+            document.getElementById("alert-server").style.display = "block"
+        }
+        else {
+            localStorage.setItem("token", response)
+            navigateTo("/part")
+        }
     };
     return (
         <>
@@ -20,6 +36,12 @@ const api = new Api()
             <div className="container">
                 <div className="card">
                     <h2>Se connecter</h2>
+                    <div className="card-alert" id="alert-password" style={{display:"none"}}>
+                        Email ou mot de passe incorrect !
+                    </div>
+                    <div className="card-alert" id="alert-server" style={{display:"none"}}>
+                        Erreur serveur, veuillez réessayer ultérieurement.
+                    </div>
                     <form onSubmit={handleSubmit} className="login-form">
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" name="email" required autoComplete="email"/>
@@ -29,6 +51,7 @@ const api = new Api()
                             <a href="#" className="forgot-password">Mot de passe oublié ?</a>
                             <button type="submit" className="btn-color">Se connecter</button>
                         </div>
+
                     </form>
                 </div>
             </div>

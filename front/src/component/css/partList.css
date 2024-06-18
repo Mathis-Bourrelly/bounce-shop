@@ -56,11 +56,8 @@ thead th:first-child {
     background-color: #f3f3f3;
 }
 
-.range-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 8px;
-    background-color: #e0e0e0;
+#column-select{
+    margin-left: 4px;
 }
 
 .type-badge {
@@ -71,22 +68,80 @@ thead th:first-child {
     color: #ffffff;
 }
 
-.type-badge.intermediate {
-    background-color: #f7d9c4;
-    color: #8c6239;
+.type-checkbox {
+    display: inline-block;
+    margin-left: 8px;
+    cursor: pointer;
 }
 
-.type-badge.raw {
+.cat label input {
+    position: absolute;
+    display: none;
+    color: #fff !important;
+}
+
+.cat span{
+    user-select: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: solid 2px #E0E0E0;
+    background: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.cat input:checked + span {
+    color: #ffffff;
+}
+
+.raw input:checked + span {
     background-color: #f7f1c4;
     color: #8c8c39;
 }
 
-.type-badge.bought {
+.bought input:checked + span {
     background-color: #c4e5f7;
     color: #396c8c;
 }
 
-.type-badge.deliverable {
+.intermediate input:checked + span {
+    background-color: #f7d9c4;
+    color: #8c6239;
+}
+
+.deliverable input:checked + span {
     background-color: #c4f7c4;
     color: #398c39;
+}
+
+.table-top-bar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-bottom-bar{
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-link{
+    margin: 0 8px;
+    text-decoration: underline;
+    user-select: none;
+}
+
+.page-active{
+    width: auto;
+    border-radius: 8px;
+    border: solid 2px #E0E0E0;
+    color: #000000;
+    background: #ffffff;
+    font-size: 16px;
+    padding: 0 16px 0 16px;
+    user-select: none;
+    text-decoration: none;
+    margin: 0 4px ;
+}
+.page-active:hover{
+    cursor: auto;
 }

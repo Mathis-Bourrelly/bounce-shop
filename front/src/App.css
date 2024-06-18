@@ -1,4 +1,4 @@
-.btn-light{
+.btn-light {
     height: 40px;
     width: auto;
     border-radius: 8px;
@@ -6,9 +6,10 @@
     color: #000000;
     border: solid 0;
     padding: 0 16px 0 16px;
+    user-select: none;
 }
 
-.btn-dark{
+.btn-dark {
     height: 40px;
     width: auto;
     border-radius: 8px;
@@ -16,10 +17,10 @@
     color: #ffffff;
     border: solid 0;
     padding: 0 16px 0 16px;
-
+    user-select: none;
 }
 
-.btn-color{
+.btn-color {
     height: 40px;
     width: auto;
     border-radius: 8px;
@@ -27,12 +28,26 @@
     color: #ffffff;
     border: solid 0;
     padding: 0 16px 0 16px;
+    user-select: none;
+}
+
+.btn-white{
+    height: 36px;
+    width: auto;
+    border-radius: 8px;
+    border: solid 2px #E0E0E0;
+    color: #000000;
+    background: #ffffff;
+    font-size: 16px;
+    padding: 0 16px 0 16px;
+    user-select: none;
 }
 
 .btn-light:hover {
     background: #CCCCCC;
     cursor: pointer;
 }
+
 .btn-dark:hover {
     background: #333333;
     cursor: pointer;
@@ -43,12 +58,12 @@
     cursor: pointer;
 }
 
-.content{
+.content {
     margin-left: 70px;
     margin-top: 10px;
 }
 
-.card{
+.card {
     border-radius: 8px;
     background: #ffffff;
     display: flex;
@@ -59,25 +74,46 @@
     box-shadow: rgba(0, 0, 0, 0.04) 0 4px 6px;
 }
 
-.container{
+.card-alert {
+    padding: 15px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    width: fit-content;
+    margin-bottom: 8px;
+}
+
+.container {
     display: flex;
     justify-content: center;
     margin: 100px;
 }
 
-form{
+form {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-input{
+input {
     border-radius: 8px;
     border: solid 2px #E0E0E0;
     height: 32px;
     font-size: 16px;
 }
 
-a{
+select {
+    border-radius: 8px;
+    border: solid 2px #E0E0E0;
+    height: 38px;
+    font-size: 16px;
+}
+
+a {
     color: #CA0610;
+}
+a:hover{
+    cursor: pointer;
 }

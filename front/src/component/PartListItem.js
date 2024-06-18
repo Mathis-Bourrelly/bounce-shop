@@ -2,7 +2,7 @@ import React from "react";
 import "./css/partList.css"
 const PartListItem = ({part}) => {
     return (
-        <tr key={part.partID}>
+        <tr>
             <td>{part.partID}</td>
             <td>{part.label}</td>
             <td><span className="range-badge">{part.rangeID}</span></td>

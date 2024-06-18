@@ -10,3 +10,39 @@
     display: flex;
     justify-content: space-between;
 }
+.part-research{
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+}
+.filter-checkbox{
+    display: flex;
+    align-items: center;
+}
+.type-badge {
+    font-size: 14px;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+.type-badge.intermediate {
+    background-color: #f7d9c4;
+    color: #8c6239;
+}
+
+.type-badge.raw {
+    background-color: #f7f1c4;
+    color: #8c8c39;
+}
+
+.type-badge.bought {
+    background-color: #c4e5f7;
+    color: #396c8c;
+}
+
+.type-badge.deliverable {
+    background-color: #c4f7c4;
+    color: #398c39;
+}
