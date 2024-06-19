@@ -45,7 +45,7 @@ CREATE TABLE "Suppliers" (
     name TEXT
 );
 
--- Table: Part
+-- Table: PartAll
 CREATE TABLE "Parts" (
     "partID" SERIAL PRIMARY KEY,
     "isBought" BOOLEAN,

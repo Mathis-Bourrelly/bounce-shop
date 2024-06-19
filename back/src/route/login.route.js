@@ -21,10 +21,25 @@ router.post('/login',
         } else {
             if (bcrypt.compareSync(req.body.password, existingUser.password)) {
                 const token = jwt.sign({email: req.body.email}, process.env.MOTDEPASSEAPP);
-                res.status(202).send({"token":token})
-            }else {
+                res.status(202).send({"token": token})
+            } else {
                 res.sendStatus(401)
             }
+        }
+    }
+);
+
+router.post('/auth',
+    body('token').not().isEmpty(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+        if (jwt.verify(req.body.token, process.env.MOTDEPASSEAPP)) {
+            res.sendStatus(202)
+        } else {
+            res.sendStatus(401)
         }
     }
 );
