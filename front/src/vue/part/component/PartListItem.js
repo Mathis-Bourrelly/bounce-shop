@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/partList.css"
+import "../css/partList.css"
 const PartListItem = ({part}) => {
     return (
         <tr>

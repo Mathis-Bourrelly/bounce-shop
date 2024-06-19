@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import './css/partList.css';
+import "../css/partList.css";
 import PartListItem from './PartListItem';
-import Pagination from "./Pagination";
+import Pagination from "../../component/Pagination";
+import Api from "../../../API";
 
 const Table = () => {
     const [parts, setParts] = useState([]);
@@ -17,13 +18,13 @@ const Table = () => {
         deliverable: false
     });
     const itemPerPage = 15
-
+    const api = new Api()
     useEffect(() => {
         fetchParts();
     }, [sortConfig, searchText, searchColumn, currentPage, typeFilters]);
 
     const fetchParts = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         try {
             let url = `http://localhost:4000/parts/${sortConfig.direction}/${sortConfig.key}/${currentPage}?searchColumn=${searchColumn}&searchText=${searchText}`;
@@ -46,6 +47,7 @@ const Table = () => {
             setTotalPages(Math.ceil(data.count / itemPerPage));
         } catch (error) {
             console.error('Error fetching data:', error);
+            api.navigate("/login")
         }
     };
 

@@ -1,16 +1,11 @@
-import React, {useState} from "react"
-import FullNavbar from "../component/FullNavbar";
-import './css/login.css';
+import React from "react"
+import FullNavbar from "./component/FullNavbar";
+import './login.css';
 import Api from "../API";
-import {useNavigate} from "react-router-dom";
-
 
 const Login = () => {
     const api = new Api()
-    let navigate = useNavigate()
-    function navigateTo(route) {
-        navigate(route)
-    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,8 +21,8 @@ const Login = () => {
             document.getElementById("alert-server").style.display = "block"
         }
         else {
-            localStorage.setItem("token", response)
-            navigateTo("/part")
+            sessionStorage.setItem("token", response)
+            await api.navigateTo("/part")
         }
     };
     return (

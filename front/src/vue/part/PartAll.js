@@ -1,9 +1,9 @@
 import React from "react"
 import SideMenu from "../component/SideMenu";
 import Navbar from "../component/Navbar";
-import PartList from "../component/PartList";
+import PartList from "./component/PartList";
 
-const Part = () => {
+const PartAll = () => {
     const pageName = "part"
     const pageTitle = "Pièces"
     return (
@@ -19,4 +19,4 @@ const Part = () => {
     );
 };
 
-export default Part
+export default PartAll
