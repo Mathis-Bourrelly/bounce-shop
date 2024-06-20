@@ -1,9 +1,20 @@
-.table-container {
-    padding: 20px;
+thead th:last-child {
+    border-radius: 0 8px 0 0;
 }
 
-th{
-    white-space: nowrap;
+thead th:first-child {
+    border-radius: 8px 0 0 0;
+}
+
+
+/* Cibler la première cellule de la dernière ligne */
+.styled-table tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 8px;
+}
+
+/* Cibler la dernière cellule de la dernière ligne */
+.styled-table tbody tr:last-child td:last-child {
+    border-radius:  0 0 8px 0;
 }
 
 .styled-table {
@@ -45,7 +56,7 @@ thead th:first-child {
 }
 
 .styled-table th, .styled-table td {
-    padding: 12px 15px;
+    padding: 8px
 }
 
 .styled-table tbody tr {

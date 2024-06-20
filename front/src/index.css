@@ -1,20 +1,52 @@
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: medium;
-  font-weight: 16;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #F7F7F7;
 }
 
 button{
-  font-family: Inter, sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: medium;
-  font-weight: 16;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #EEEEEE;
+}
+
+span{
+  font-weight: 500;
+  user-select: none;
+}
+
+a{
+  font-weight: 500;
+}
+
+input{
+  font-family: "Open Sans", sans-serif;
+  font-size: medium;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+select{
+  font-family: "Open Sans", sans-serif;
+  font-size: medium;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+textarea{
+  font-family: "Open Sans", sans-serif;
+  font-size: medium;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {

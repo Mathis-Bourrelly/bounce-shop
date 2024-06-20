@@ -17,7 +17,7 @@ const Table = () => {
         intermediate: false,
         deliverable: false
     });
-    const itemPerPage = 15
+    const itemPerPage = 13
     const api = new Api()
     useEffect(() => {
         fetchParts();
