@@ -19,18 +19,21 @@ export default class Api {
         }
     }
     myFetch = (url, init) => {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             fetch(`${this.baseUrl}/${url}`, init)
                 .then(response => {
-                    const regex = /^2/;
-                    if (regex.test(response.status)) {
-                        resolve(response.json())
+                    if (response.ok) {
+                        return response.json().then(data => resolve(data));
                     } else {
-                        reject(response.status)
+                        console.log(`${response.status} : ${response.statusText}`);
+                        reject(new Error(`HTTP error ${response.status}: ${response.statusText}`));
                     }
                 })
-                .catch(err => reject(-1))
-        }))
+                .catch(err => {
+                    console.error('Fetch error:', err);
+                    reject(err);
+                });
+        });
     }
 
     myFetchNoJson = (url, init) => {
@@ -46,6 +49,40 @@ export default class Api {
                 })
                 .catch(err => reject(-1))
         }))
+    }
+
+    postFromRoute = async (url, body, token) => {
+        console.log("Sent body:", body);
+        try {
+            const response = await this.myFetch(url, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response;
+        } catch (error) {
+            console.error('Error in postFromRoute:', error);
+            throw error; // Rethrow the error to be handled by the caller
+        }
+    }
+
+    getFromRoute = async (url, token) => {
+        try {
+            const response = await this.myFetch(url, {
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response;
+        } catch (error) {
+            console.error('Error in getFromRoute:', error);
+            throw error; // Rethrow the error to be handled by the caller
+        }
     }
 
     login = async (email, password) => {
@@ -92,26 +129,5 @@ export default class Api {
             }
         }
         return response
-    }
-
-
-    getUtilisateurDataByMail = (mail, token) => {
-        return this.myFetch(`utilisateurs/${mail}`, {
-            method: "GET",
-            headers: {
-                'Authorization' : `Bearer ${token}`,
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-    }
-
-    getAllPieceWithRange = (offset, limit, token) => {
-        return this.myFetch(`pieces/${offset}/${limit}`, {
-            method: "GET",
-            headers: {
-                'Authorization' : `Bearer ${token}`,
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
     }
 }

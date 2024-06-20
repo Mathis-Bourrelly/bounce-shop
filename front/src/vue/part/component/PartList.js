@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import "../css/partList.css";
+import "./css/partList.css";
 import PartListItem from './PartListItem';
 import Pagination from "../../component/Pagination";
 import Api from "../../../API";
@@ -27,27 +27,21 @@ const Table = () => {
         const token = sessionStorage.getItem("token");
 
         try {
-            let url = `http://localhost:4000/parts/${sortConfig.direction}/${sortConfig.key}/${currentPage}?searchColumn=${searchColumn}&searchText=${searchText}`;
+            let url = `parts/${sortConfig.direction}/${sortConfig.key}/${currentPage}?searchColumn=${searchColumn}&searchText=${searchText}`;
 
             // Ajout des filtres de type à l'URL
             const selectedTypes = Object.keys(typeFilters).filter(key => typeFilters[key]).join('');
             if (selectedTypes) {
                 url += `&type=${selectedTypes}`;
             }
-
-            const res = await fetch(url, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const data = await res.json();
+            const data = await api.getFromRoute(url,token)
             setParts(data.parts);
             setTotalPages(Math.ceil(data.count / itemPerPage));
         } catch (error) {
-            console.error('Error fetching data:', error);
-            api.navigate("/login")
+            console.log('Error fetching data:', error);
+            if (error.status === 401) {
+                api.navigate("/login")
+            }
         }
     };
 
@@ -75,10 +69,12 @@ const Table = () => {
 
     const handleSearchTextChange = (e) => {
         setSearchText(e.target.value);
+        setCurrentPage(1)
     };
 
     const handleSearchColumnChange = (e) => {
         setSearchColumn(e.target.value === "no_filter" ? "" : e.target.value);
+        setCurrentPage(1)
     };
 
     const handleTypeFilterChange = (type) => {
@@ -86,6 +82,7 @@ const Table = () => {
             ...prevFilters,
             [type]: !prevFilters[type]
         }));
+        setCurrentPage(1)
     };
 
     const handlePageChange = (pageNumber) => {
