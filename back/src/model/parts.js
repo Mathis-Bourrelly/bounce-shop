@@ -23,17 +23,13 @@ const parts = sequelize.define('Parts', {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        rangeID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
         quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
         partListID: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         },
         supplierID: {
             type: DataTypes.INTEGER,

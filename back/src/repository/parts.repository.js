@@ -1,3 +1,7 @@
+const previousParts = require('../model/previousParts');
+const partLists = require('../model/partLists');
+const suppliers = require('../model/suppliers');
+const prices = require('../model/prices');
 const parts = require('../model/parts');
 const {sequelize} = require("../core/postgres");
 
@@ -9,6 +13,18 @@ exports.getPartById = async (partID) => {
 
 exports.createPart = async (body) => {
     return parts.create(body);
+};
+
+exports.createPartList = async (body) => {
+    return partLists.create(body);
+};
+
+exports.createPreviousPart = async (body) => {
+    return previousParts.create(body);
+};
+
+exports.createPrice = async (body) => {
+    return prices.create(body);
 };
 
 exports.updatePart = async (partID, data) => {

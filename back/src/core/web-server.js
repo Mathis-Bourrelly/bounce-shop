@@ -5,6 +5,7 @@ const usersRoute = require('../route/users.route');
 const machinesRoute = require('../route/machines.route');
 const operationsRoute = require('../route/operations.route');
 const rangesRoute = require('../route/ranges.route');
+const suppliersRoute = require('../route/suppliers.route');
 const operationHistoryRoute = require('../route/operationHistory.route');
 const loginRoute = require('../route/login.route');
 
@@ -38,6 +39,7 @@ class WebServer {
     this.app.use('/machines',machinesRoute.initializeRoutes());
     this.app.use('/operations',operationsRoute.initializeRoutes());
     this.app.use('/ranges',rangesRoute.initializeRoutes());
+    this.app.use('/suppliers',suppliersRoute.initializeRoutes());
     this.app.use('/operationHistory',operationHistoryRoute.initializeRoutes());
     this.app.use('/',loginRoute.initializeRoutes());
   }
