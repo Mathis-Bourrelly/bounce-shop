@@ -16,12 +16,12 @@ const workStations = sequelize.define('WorkStations', {
             key: 'validMachineID',
         }
     },
-    JobQualificationListID: {
+    jobQualificationListID: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
             model: 'JobQualificationList',
-            key: 'JobQualificationListID',
+            key: 'jobQualificationListID',
         }
     }
 }, {

@@ -26,12 +26,12 @@ const users = sequelize.define('Users', {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
-    JobQualificationListID: {
+    jobQualificationListID: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
             model: 'JobQualificationList',
-            key: 'JobQualificationListID',
+            key: 'jobQualificationListID',
         }
     }
 }, {

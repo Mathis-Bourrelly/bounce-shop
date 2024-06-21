@@ -1,22 +1,34 @@
+const {sequelize} = require("../core/postgres");
 const previousParts = require('../model/previousParts');
-const partLists = require('../model/partLists');
-const suppliers = require('../model/suppliers');
 const prices = require('../model/prices');
 const parts = require('../model/parts');
-const {sequelize} = require("../core/postgres");
+const suppliers = require('../model/suppliers');
+const ranges = require('../model/ranges');
 
 exports.getAllParts = async () => await parts.findAll();
 
+
 exports.getPartById = async (partID) => {
-    return await parts.findByPk(partID);
+    return await parts.findByPk(partID, {
+        include: [
+            {
+                model: suppliers,
+                required: false
+            },
+            {
+                model: ranges,
+                required: false,
+            },
+            {
+                model: prices,
+                required: false,
+            },
+        ]
+    });
 };
 
 exports.createPart = async (body) => {
     return parts.create(body);
-};
-
-exports.createPartList = async (body) => {
-    return partLists.create(body);
 };
 
 exports.createPreviousPart = async (body) => {

@@ -12,7 +12,7 @@ router.get('/getAll', async (req, res) => {
         res.status(500).send({ error: e.message });
     }
 });
-router.get('/:direction/:column/:page?', async (req, res) => {
+router.get('/getByQuery/:direction/:column/:page?', async (req, res) => {
     const { direction, column, page } = req.params;
     const pageSize = 13;
 
@@ -30,7 +30,7 @@ router.get('/:direction/:column/:page?', async (req, res) => {
 });
 
 
-router.get('/:id', async (req, res) => {
+router.get('/getByID/:id', async (req, res) => {
     let part = await partRepository.getPartById(req.params.id);
     res.send(part);
 });
@@ -41,7 +41,6 @@ router.post('/',
     body('isRaw').not().isEmpty().isBoolean(),
     body('isIntermediate').not().isEmpty().isBoolean(),
     body('quantity').not().isEmpty().isInt(),
-    body('priceID').not().isEmpty().isInt(),
     body('supplierID').not().isEmpty().isInt(),
     body('label').not().isEmpty(),
     body('description').not().isEmpty(),
@@ -52,12 +51,6 @@ router.post('/',
         }
         let part = await partRepository.createPart(req.body);
     res.send(part);
-});
-
-router.post('/partlist',
-    async (req, res) => {
-        let partList = await partRepository.createPartList(req.body);
-    res.send(partList);
 });
 
 router.post('/previousPart',

@@ -2,11 +2,11 @@
 
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.bulkDelete('JobQualificationList', null, {});
+        //await queryInterface.bulkDelete('JobQualificationList', null, {});
         await queryInterface.bulkInsert('JobQualificationList', [
-            { JobQualificationListID: 1 },
-            { JobQualificationListID: 2 },
-            { JobQualificationListID: 3 }
+            { jobQualificationListID: 1 },
+            { jobQualificationListID: 2 },
+            { jobQualificationListID: 3 }
         ], {});
     },
 

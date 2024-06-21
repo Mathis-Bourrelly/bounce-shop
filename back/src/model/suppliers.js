@@ -8,7 +8,7 @@ const suppliers = sequelize.define('Suppliers', {
             primaryKey: true
         },
         name: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.STRING,
             allowNull: false,
         },
     },

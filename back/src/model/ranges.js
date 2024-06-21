@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../core/postgres');
+const parts = require("./parts");
 
 const ranges = sequelize.define('Ranges', {
     rangeID: {
@@ -17,7 +18,7 @@ const ranges = sequelize.define('Ranges', {
         }
     },
     userID: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: true,
         references: {
             model: 'Users',

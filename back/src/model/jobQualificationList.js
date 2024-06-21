@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../core/postgres');
 
 const JobQualificationList = sequelize.define('JobQualificationList', {
-    JobQualificationListID: {
+    jobQualificationListID: {
         autoIncrement: true,
         type: DataTypes.INTEGER,
         allowNull: false,

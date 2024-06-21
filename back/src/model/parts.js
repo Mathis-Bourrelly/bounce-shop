@@ -1,5 +1,9 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('../core/postgres');
+const suppliers = require("./suppliers");
+const ranges = require("./ranges");
+const prices = require("./prices");
+
 const parts = sequelize.define('Parts', {
         partID: {
             autoIncrement: true,
@@ -27,13 +31,13 @@ const parts = sequelize.define('Parts', {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        partListID: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
         supplierID: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            references: {
+                model: 'Suppliers',
+                key: 'supplierID',
+            },
         },
         label: {
             type: DataTypes.STRING,
@@ -51,4 +55,17 @@ const parts = sequelize.define('Parts', {
     }
 )
 
+parts.hasOne(suppliers, {
+    foreignKey: {
+        name: 'supplierID',
+    }});
+
+parts.belongsTo(ranges, {
+    foreignKey: {
+        name: 'partID',
+    }});
+
+parts.hasMany(prices, {
+    foreignKey: 'partID',
+});
 module.exports = parts;

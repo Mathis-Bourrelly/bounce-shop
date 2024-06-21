@@ -28,7 +28,7 @@ const operations = sequelize.define('Operations', {
             key: 'machineID',
         }
     },
-    worktime: {
+    workTime: {
         type: DataTypes.INTEGER,
         allowNull: true,
     }

@@ -1,18 +1,18 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('../core/postgres');
-const previousParts = sequelize.define('previousParts', {
+const previousParts = sequelize.define('PreviousParts', {
         previousPartID: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        partListID: {
+        partID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'PartLists',
-                key: 'partListID',
+                model: 'Parts',
+                key: 'partID',
             }
         },
         quantity: {
