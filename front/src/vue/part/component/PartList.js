@@ -27,7 +27,7 @@ const Table = () => {
         const token = sessionStorage.getItem("token");
 
         try {
-            let url = `parts/${sortConfig.direction}/${sortConfig.key}/${currentPage}?searchColumn=${searchColumn}&searchText=${searchText}`;
+            let url = `parts/getByQuery/${sortConfig.direction}/${sortConfig.key}/${currentPage}?searchColumn=${searchColumn}&searchText=${searchText}`;
 
             // Ajout des filtres de type à l'URL
             const selectedTypes = Object.keys(typeFilters).filter(key => typeFilters[key]).join('');
@@ -39,8 +39,8 @@ const Table = () => {
             setTotalPages(Math.ceil(data.count / itemPerPage));
         } catch (error) {
             console.log('Error fetching data:', error);
-            if (error.status === 401) {
-                api.navigate("/login")
+            if (error) {
+                api.navigate("/")
             }
         }
     };
@@ -85,10 +85,6 @@ const Table = () => {
         setCurrentPage(1)
     };
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
     return (
         <div className="table-container">
             <div className="table-top-bar">
@@ -131,6 +127,7 @@ const Table = () => {
                     </div>
 
                 </div>
+                <button className="btn-color" onClick={() =>api.navigateTo("/part/new")} >Créer une pièce</button>
             </div>
             <table className="styled-table">
                 <thead>
@@ -143,9 +140,14 @@ const Table = () => {
                         <a className="sortable-column"
                            onClick={() => requestSort('label')}>Label{getSortIcon('label')}</a>
                     </th>
+
                     <th>
                         <a className="sortable-column"
                            onClick={() => requestSort('rangeID')}>Gamme{getSortIcon('rangeID')}</a>
+                    </th>
+                    <th>
+                        <a className="sortable-column"
+                           onClick={() => requestSort('suppliername')}>Fournisseur{getSortIcon('suppliername')}</a>
                     </th>
                     <th>Type</th>
                     <th>
@@ -161,7 +163,7 @@ const Table = () => {
                 </thead>
                 <tbody>
                 {parts.map((part) => (
-                    <PartListItem key={part.partID} part={part}></PartListItem>
+                    <PartListItem key={part.partID} part={part} api={api}></PartListItem>
                 ))}
                 </tbody>
             </table>

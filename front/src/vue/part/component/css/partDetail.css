@@ -1,0 +1,26 @@
+.container-column{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.part-details{
+    align-items: flex-start!important;
+}
+
+.detail-title{
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.id-row{
+    color: #828282;
+    font-size: 20px;
+    font-family: source-code-pro, monospace;
+}
+
+.sm-text{
+    color: #828282;
+    font-size: 16px;
+}

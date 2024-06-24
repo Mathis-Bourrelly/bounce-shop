@@ -3,6 +3,7 @@ import {useForm} from 'react-hook-form';
 import './css/partForm.css';
 import '../../App.css';
 import Api from "../../../API";
+import PartFormSelectPart from "./PartFormSelectPart";
 
 const PartForm = () => {
     const {register, handleSubmit} = useForm();
@@ -10,6 +11,7 @@ const PartForm = () => {
     const api = new Api()
 
     const [suppliers, setSuppliers] = useState([])
+
     useEffect(() => {
         const fetchSuppliers = async () => {
             const result = await api.getFromRoute("suppliers",token);
@@ -117,31 +119,7 @@ const PartForm = () => {
                     </div>
                 </div>
 
-                <div className="card">
-                    <label className="title-label">Composition</label>
-                    <div className="form-group">
-                        <input placeholder="Rechercher une pièce..."/>
-                        <button type="button" className="btn-color">Ajouter la pièce</button>
-                    </div>
-                    <table className="styled-table">
-                        <thead>
-                        <tr>
-                            <th>Label</th>
-                            <th>Quantity</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td className="part-label-row">Row 1</td>
-                            <td><input className="input-count" type="number" defaultValue="1"/></td>
-                        </tr>
-                        <tr>
-                            <td className="part-label-row">Row 1</td>
-                            <td><input className="input-count" type="number" defaultValue="1"/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+               <PartFormSelectPart token={token}/>
 
                 <div className="card">
                     <label className="title-label">Opération</label>

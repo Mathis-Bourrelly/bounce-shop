@@ -156,3 +156,8 @@ thead th:first-child {
 .page-active:hover{
     cursor: auto;
 }
+
+.clickable-row:hover{
+    background: rgba(130, 130, 130, 0.2)!important;
+    cursor: pointer;
+}

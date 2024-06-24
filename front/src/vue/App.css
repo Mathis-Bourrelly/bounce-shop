@@ -30,6 +30,7 @@
     padding: 0 16px 0 16px;
     user-select: none;
     white-space: nowrap;
+
 }
 
 .btn-white{
@@ -55,7 +56,7 @@
 }
 
 .btn-color:hover {
-    background: #d33841;
+    background: #a1060e;
     cursor: pointer;
 }
 
@@ -80,9 +81,20 @@
     background: #ffffff;
     display: flex;
     padding: 16px;
-    width: fit-content;
+    width: 100%;
     flex-direction: column;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.04) 0 4px 6px;
+}
+
+.card-left {
+    border-radius: 8px;
+    background: #ffffff;
+    display: flex;
+    padding: 16px;
+    width: 100%;
+    flex-direction: column;
+    align-items: start;
     box-shadow: rgba(0, 0, 0, 0.04) 0 4px 6px;
 }
 

@@ -15,7 +15,7 @@ export default class Api {
             this.navigate(route)
         } else {
             sessionStorage.setItem("token", "")
-            this.navigate("/login")
+            this.navigate("/")
         }
     }
     myFetch = (url, init) => {
