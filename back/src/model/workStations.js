@@ -20,7 +20,7 @@ const workStations = sequelize.define('WorkStations', {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: 'JobQualificationList',
+            model: 'JobQualificationLists',
             key: 'jobQualificationListID',
         }
     }

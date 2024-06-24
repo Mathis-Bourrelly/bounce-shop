@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../core/postgres');
 
-const JobQualificationList = sequelize.define('JobQualificationList', {
+const jobQualificationLists = sequelize.define('JobQualificationLists', {
     jobQualificationListID: {
         autoIncrement: true,
         type: DataTypes.INTEGER,
@@ -14,4 +14,4 @@ const JobQualificationList = sequelize.define('JobQualificationList', {
     updatedAt: false,
 });
 
-module.exports = JobQualificationList;
+module.exports = jobQualificationLists;

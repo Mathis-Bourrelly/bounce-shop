@@ -1,5 +1,6 @@
 @echo off
-call npx sequelize-cli db:seed --seed jobQualificationList.seeder.js
+call cd .\back\
+call npx sequelize-cli db:seed --seed jobQualificationLists.seeder.js
 call npx sequelize-cli db:seed --seed users.seeder.js
 call npx sequelize-cli db:seed --seed validMachines.seeder.js
 call npx sequelize-cli db:seed --seed workStations.seeder.js

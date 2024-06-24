@@ -1,13 +1,15 @@
 'use strict';
-
+const bcrypt = require('bcryptjs');
+const salt = bcrypt.genSaltSync(12);
 module.exports = {
+
     up: async (queryInterface, Sequelize) => {
         //await queryInterface.bulkDelete('Users', null, {});
         await queryInterface.bulkInsert('Users', [
             {
                 userID: '00000000-0000-0000-0000-000000000001',
                 name: 'test',
-                password: 'test',
+                password:  bcrypt.hashSync('test', salt),
                 email: 'test@test.fr',
                 role: 'admin',
                 jobQualificationListID: 1
@@ -15,7 +17,7 @@ module.exports = {
             {
                 userID: '00000000-0000-0000-0000-000000000002',
                 name: 'Jane Smith',
-                password: 'password456',
+                password: bcrypt.hashSync('test', salt),
                 email: 'jane.smith@example.com',
                 role: 'user',
                 jobQualificationListID: 2
@@ -23,7 +25,7 @@ module.exports = {
             {
                 userID: '00000000-0000-0000-0000-000000000003',
                 name: 'Jim Brown',
-                password: 'password789',
+                password: bcrypt.hashSync('test', salt),
                 email: 'jim.brown@example.com',
                 role: 'user',
                 jobQualificationListID: 3

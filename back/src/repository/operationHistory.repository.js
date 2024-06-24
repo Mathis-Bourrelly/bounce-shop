@@ -1,28 +1,28 @@
-const OperationHistory = require('../model/operationHistory');
+const OperationHistories = require('../model/OperationHistories');
 
 exports.getAllOperationHistories = async () => {
-    return await OperationHistory.findAll();
+    return await OperationHistories.findAll();
 };
 
-exports.getOperationHistoryById = async (operationID, rangeID) => {
-    return await OperationHistory.findOne({ where: { operationID, rangeID } });
+exports.getOperationHistoriesById = async (operationID, rangeID) => {
+    return await OperationHistories.findOne({ where: { operationID, rangeID } });
 };
 
-exports.createOperationHistory = async (body) => {
-    return await OperationHistory.create(body);
+exports.createOperationHistories = async (body) => {
+    return await OperationHistories.create(body);
 };
 
-exports.updateOperationHistory = async (operationID, rangeID, data) => {
-    const foundOperationHistory = await OperationHistory.findOne({ where: { operationID, rangeID } });
+exports.updateOperationHistories = async (operationID, rangeID, data) => {
+    const foundOperationHistories = await OperationHistories.findOne({ where: { operationID, rangeID } });
 
-    if (!foundOperationHistory) {
-        throw new Error('OperationHistory not found');
+    if (!foundOperationHistories) {
+        throw new Error('OperationHistories not found');
     }
 
-    await OperationHistory.update(data, { where: { operationID, rangeID } });
-    return await OperationHistory.findOne({ where: { operationID, rangeID } });
+    await OperationHistories.update(data, { where: { operationID, rangeID } });
+    return await OperationHistories.findOne({ where: { operationID, rangeID } });
 };
 
-exports.deleteOperationHistory = async (operationID, rangeID) => {
-    await OperationHistory.destroy({ where: { operationID, rangeID } });
+exports.deleteOperationHistories = async (operationID, rangeID) => {
+    await OperationHistories.destroy({ where: { operationID, rangeID } });
 };

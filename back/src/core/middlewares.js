@@ -34,7 +34,11 @@ const initFileUploadMiddleware = (app) => {
 }
 
 const initCorsMiddleware = (app) => {
-    app.use(cors());
+    const corsOptions = {
+        origin: 'http://localhost:3000',
+    };
+
+    app.use(cors(corsOptions));
     console.log("cors enable")
 }
 const staticMiddleware = (app) => {
@@ -68,10 +72,10 @@ const initLoggerMiddleware = (app) => {
     });
 };
 exports.initializeConfigMiddlewares = (app) => {
+    initCorsMiddleware(app);
     initJsonHandlerMiddleware(app);
     initJwtMiddleware(app);
     initLoggerMiddleware(app);
-    initCorsMiddleware(app);
     staticMiddleware(app);
     initFileUploadMiddleware(app);
 

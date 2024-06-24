@@ -35,6 +35,16 @@ router.get('/getByID/:id', async (req, res) => {
     res.send(part);
 });
 
+router.get('/search?', async (req, res) => {
+    let part = await partRepository.getByString(req.query.term);
+    res.send(part);
+});
+
+router.get('/getPrevParts/:id', async (req, res) => {
+    let part = await partRepository.getPreviousPart(req.params.id);
+    res.send(part);
+});
+
 router.post('/',
     body('isBought').not().isEmpty().isBoolean(),
     body('isDeliverable').not().isEmpty().isBoolean(),

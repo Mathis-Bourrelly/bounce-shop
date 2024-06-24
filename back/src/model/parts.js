@@ -3,6 +3,7 @@ const {sequelize} = require('../core/postgres');
 const suppliers = require("./suppliers");
 const ranges = require("./ranges");
 const prices = require("./prices");
+const previousParts = require("./previousParts");
 
 const parts = sequelize.define('Parts', {
         partID: {
@@ -67,5 +68,9 @@ parts.belongsTo(ranges, {
 
 parts.hasMany(prices, {
     foreignKey: 'partID',
+});
+
+parts.hasMany(previousParts, {
+    foreignKey: 'mainPartID',
 });
 module.exports = parts;

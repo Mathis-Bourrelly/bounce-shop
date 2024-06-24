@@ -1,28 +1,28 @@
-const JobQualificationList = require('../model/JobQualificationList');
+const jobQualificationLists = require('../model/jobQualificationLists');
     
 exports.getAllMachines = async () => {
-    return await JobQualificationList.findAll();
+    return await jobQualificationLists.findAll();
 };
 
 exports.getMachineById = async (jobQualificationListID) => {
-    return await JobQualificationList.findByPk(jobQualificationListID);
+    return await jobQualificationLists.findByPk(jobQualificationListID);
 };
 
 exports.createMachine = async (body) => {
-    return await JobQualificationList.create(body);
+    return await jobQualificationLists.create(body);
 };
 
 exports.updateMachine = async (machineID, data) => {
-    const foundMachine = await JobQualificationList.findOne({ where: { jobQualificationListID } });
+    const foundMachine = await jobQualificationLists.findOne({ where: { jobQualificationListID } });
 
     if (!foundMachine) {
         throw new Error('Machine not found');
     }
 
-    await JobQualificationList.update(data, { where: { jobQualificationListID } });
-    return await JobQualificationList.findByPk(machineID);
+    await jobQualificationLists.update(data, { where: { jobQualificationListID } });
+    return await jobQualificationLists.findByPk(machineID);
 };
 
 exports.deleteMachine = async (jobQualificationListID) => {
-    await JobQualificationList.destroy({ where: { jobQualificationListID } });
+    await jobQualificationLists.destroy({ where: { jobQualificationListID } });
 };

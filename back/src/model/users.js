@@ -30,7 +30,7 @@ const users = sequelize.define('Users', {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: 'JobQualificationList',
+            model: 'JobQualificationLists',
             key: 'jobQualificationListID',
         }
     }

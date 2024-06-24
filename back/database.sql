@@ -9,7 +9,7 @@ CREATE TABLE "Machines" (
 );
 
 -- Table: JobQualificationList
-CREATE TABLE "JobQualificationList" (
+CREATE TABLE "JobQualificationLists" (
     "jobQualificationListID" SERIAL PRIMARY KEY
 );
 
@@ -17,7 +17,7 @@ CREATE TABLE "JobQualificationList" (
 CREATE TABLE "WorkStations" (
     "workStationID" SERIAL PRIMARY KEY,
     "validMachineID" INTEGER NOT NULL REFERENCES "ValidMachines"("validMachineID"),
-    "jobQualificationListID" INTEGER NOT NULL REFERENCES "JobQualificationList"("jobQualificationListID")
+    "jobQualificationListID" INTEGER NOT NULL REFERENCES "JobQualificationLists"("jobQualificationListID")
 );
 
 -- Table: Supplier
@@ -42,7 +42,7 @@ CREATE TABLE "Parts" (
 -- Table: Price
 CREATE TABLE "Prices" (
     "priceID" SERIAL PRIMARY KEY,
-    "price" INTEGER NOT NULL,
+    "price" FLOAT NOT NULL,
     "date" DATE NOT NULL,
     "partID" INTEGER NOT NULL REFERENCES "Parts"("partID")
 );
@@ -50,10 +50,11 @@ CREATE TABLE "Prices" (
 
 -- Table: PreviousPart
 CREATE TABLE "PreviousParts" (
-    "previousPartID" INTEGER NOT NULL,
+    "previousPartID" SERIAL PRIMARY KEY,
     "quantity" INTEGER NOT NULL,
+    "prevLabel" TEXT NOT NULL,
     "partID" INTEGER NOT NULL REFERENCES "Parts"("partID"),
-    PRIMARY KEY("previousPartID", "partID")
+    "mainPartID" INTEGER NOT NULL REFERENCES "Parts"("partID")
 );
 
 -- Table: User
@@ -63,7 +64,7 @@ CREATE TABLE "Users" (
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "role" TEXT NOT NULL,
-    "jobQualificationListID" INTEGER REFERENCES "JobQualificationList"("jobQualificationListID")
+    "jobQualificationListID" INTEGER REFERENCES "JobQualificationLists"("jobQualificationListID")
 );
 
 -- Table: Range
@@ -83,7 +84,7 @@ CREATE TABLE "Operations" (
 );
 
 -- Table: OperationHistory
-CREATE TABLE "OperationHistory" (
+CREATE TABLE "OperationHistories" (
     "operationID" INTEGER REFERENCES "Operations"("operationID"),
     "rangeID" INTEGER NOT NULL REFERENCES "Ranges"("rangeID"),
     "workStationID" INTEGER NOT NULL REFERENCES "WorkStations"("workStationID"),

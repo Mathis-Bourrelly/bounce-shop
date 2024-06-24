@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../core/postgres');
 
-const operationHistory = sequelize.define('OperationHistory', {
+const operationHistories = sequelize.define('OperationHistories', {
     operationID: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -34,4 +34,4 @@ const operationHistory = sequelize.define('OperationHistory', {
     updatedAt: false,
 });
 
-module.exports = operationHistory;
+module.exports = operationHistories;
