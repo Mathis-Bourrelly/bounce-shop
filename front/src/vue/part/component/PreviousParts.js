@@ -1,6 +1,7 @@
 import React from 'react';
 
-const PreviousParts = ({parts}) => {
+const PreviousParts = ({parts, api}) => {
+
     return (
         <table className="styled-table">
             <thead>
@@ -13,7 +14,7 @@ const PreviousParts = ({parts}) => {
             </thead>
             <tbody>
             {parts.map(part => (
-                <tr key={part.partID}>
+                <tr key={part.partID} className="clickable-row" onClick={() => api.navigateTo(`/part/${part.partID}`)}>
                     <td>{part.partID}</td>
                     <td>{part.prevLabel}</td>
                     <td>{part.quantity}</td>

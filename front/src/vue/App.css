@@ -189,3 +189,7 @@ a {
 a:hover{
     cursor: pointer;
 }
+
+hr.solid {
+    border-top: 3px solid #EEEEEE;
+}

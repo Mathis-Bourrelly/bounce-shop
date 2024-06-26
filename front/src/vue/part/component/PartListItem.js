@@ -12,10 +12,10 @@ const PartListItem = ({part, api}) => {
             <td><span className="range-badge">{part.rangeID}</span></td>
             <td>{part.suppliername}</td>
             <td>
-                {part.isBought && <span className="type-badge bought">Acheté</span>}
-                {part.isDeliverable && <span className="type-badge deliverable">Déliverable</span>}
-                {part.isRaw && <span className="type-badge raw">Matériaux</span>}
-                {part.isIntermediate && <span className="type-badge intermediate">Intermédiaire</span>}
+                {part.type === "B" && <span className="type-badge bought">Acheté</span>}
+                {part.type === "D" && <span className="type-badge deliverable">Déliverable</span>}
+                {part.type === "R" && <span className="type-badge raw">Matériaux</span>}
+                {part.type === "I" && <span className="type-badge intermediate">Intermédiaire</span>}
             </td>
             <td>{part.quantity}</td>
             <td><strong>{part.price}</strong> €</td>

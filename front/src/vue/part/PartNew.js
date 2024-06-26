@@ -4,7 +4,7 @@ import Navbar from "../component/Navbar";
 import PartForm from "./component/PartForm";
 
 const PartAll = () => {
-    const pageName = "part"
+    const pageName = "part-new"
     const pageTitle = "Nouvelle pièce"
     return (
         <>

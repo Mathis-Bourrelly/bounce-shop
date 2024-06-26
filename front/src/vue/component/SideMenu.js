@@ -14,9 +14,13 @@ const SideMenu = ({page}) => {
                     Menu Administrateur
                 </div>
                 <div className="side-nav">
-                    <SideItem page={page} name={"part"} title={"pièces"} icon={"screw"}/>
-                    <SideItem page={page} name={"user"} title={"utlisateurs"} icon={"user--v1"}/>
-                    <SideItem page={page} name={"command"} title={"commandes"} icon={"user--v1"}/>
+                    <hr className="solid"/>
+                    <SideItem page={page} url={"/part"} name={"part"} title={"Liste des pièces"} icon={"screw"}/>
+                    <SideItem page={page} url={"/part/new"} name={"part-new"} title={"Nouvelle pièce"} icon={"add-tag"}/>
+                    <hr className="solid"/>
+                    <SideItem page={page} url={""} name={"user"} title={"Liste des agents"} icon={"user--v1"}/>
+                    <SideItem page={page} url={""} name={"user-new"} title={"Nouvel agent"} icon={"add-user-male--v1"}/>
+                    <hr className="solid"/>
                 </div>
             </div>
         </div>

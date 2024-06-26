@@ -52,7 +52,6 @@ export default class Api {
     }
 
     postFromRoute = async (url, body, token) => {
-        console.log("Sent body:", body);
         try {
             const response = await this.myFetch(url, {
                 method: "POST",

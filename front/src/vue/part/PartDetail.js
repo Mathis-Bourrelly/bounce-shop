@@ -9,14 +9,14 @@ import PricesParts from "./component/PricesParts";
 
 const PartDetail = () => {
     let {partID} = useParams();
-    const pageName = "part detail"
-    const pageTitle = `pièce ${partID}`
+    const pageName = "part-detail"
+    const pageTitle = `detail de la pièce ${partID}`
     const api = new Api()
     const [part, setPart] = useState(null);
 
     useEffect(() => {
         fetchParts();
-    }, []);
+    }, [partID]);
 
     const fetchParts = async () => {
         const token = sessionStorage.getItem("token");
@@ -63,19 +63,23 @@ const PartDetail = () => {
                                             {part.isDeliverable &&
                                                 <span className="type-badge deliverable">Deliverable</span>}
                                         </div>
-                                        <div className="detail-item">
-                                            <strong>Gamme :</strong>{part.Range.rangeID}
-                                        </div>
-
-                                        <div className="detail-item">
-                                            <strong>Supplier: </strong>{part.Supplier.name}
-                                        </div>
-
+                                        {part.Range && (
+                                            <div className="detail-item">
+                                                <strong>Gamme :</strong><span
+                                                className="range-badge"></span>{part.Range.rangeID}
+                                            </div>
+                                        )}
+                                        {part.Supplier && (
+                                            <div className="detail-item">
+                                                <strong>Supplier: </strong>{part.Supplier.name}
+                                            </div>
+                                        )}
                                         <div className="detail-item">
                                             <div className="sm-text">{part.quantity} pieces available</div>
                                         </div>
                                         <div className="detail-item">
-                                            <strong>{part.Prices[0].price}$</strong><span className="sm-text"> /pièce</span>
+                                            <strong>{part.Prices[0].price}€</strong><span
+                                            className="sm-text"> /pièce</span>
                                         </div>
 
                                         <p>{part.description}</p>
@@ -85,7 +89,7 @@ const PartDetail = () => {
                             <div className="container-column">
                                 <div className="card-left">
                                     <div className="detail-title">Composition</div>
-                                    <PreviousParts parts={part.PreviousParts}/>
+                                    <PreviousParts parts={part.PreviousParts} api={api}/>
                                 </div>
                                 <div className="card-left">
                                     <div className="detail-title">Prix</div>
