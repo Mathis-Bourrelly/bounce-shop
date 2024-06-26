@@ -34,17 +34,21 @@ exports.getPartById = async (partID) => {
 };
 
 exports.getByString = async (searchString) => {
-    const isNumeric = !isNaN(searchString);
+    //const isNumeric = !isNaN(searchString);
 
     const whereCondition = {
-        [Op.or]: [
-            { label: { [Op.like]: `%${searchString}%` } }
-        ]
+        //[Op.or]: [
+        //    {
+                label: { [Op.like]: `%${searchString}%` }
+        //    }
+        //]
     };
+/*
 
     if (isNumeric) {
         whereCondition[Op.or].push({ partID: searchString });
     }
+*/
 
     return await parts.findAll({
         where: whereCondition,
@@ -89,117 +93,80 @@ exports.getParts = async (column, direction, page, pageSize, searchColumn, searc
         limit: pageSize,
         offset: offset
     };
+
     let query = `
         SELECT p.*, pr.price, r."rangeID", s.name as supplierName
         FROM "Parts" p
-                 LEFT JOIN (
+        LEFT JOIN (
             SELECT pr1.*
             FROM "Prices" pr1
-                     INNER JOIN (
+            INNER JOIN (
                 SELECT "partID", MAX("date") as maxDate
                 FROM "Prices"
                 GROUP BY "partID"
             ) pr2 ON pr1."partID" = pr2."partID" AND pr1."date" = pr2.maxDate
         ) pr ON p."partID" = pr."partID"
-                 LEFT JOIN "Ranges" r ON p."partID" = r."partID"
-                 LEFT JOIN "Suppliers" s ON p."supplierID" = s."supplierID"
+        LEFT JOIN "Ranges" r ON p."partID" = r."partID"
+        LEFT JOIN "Suppliers" s ON p."supplierID" = s."supplierID"
     `;
 
-
-    const typeFilters = [];
     if (type) {
-        if (type.includes('R')) {
-            typeFilters.push('"isRaw" = true')
-        } else {
-            typeFilters.push('"isRaw" = false')
-        }
-        if (type.includes('B')) {
-            typeFilters.push('"isBought" = true');
-        } else {
-            typeFilters.push('"isBought" = false')
-        }
-        if (type.includes('I')) {
-            typeFilters.push('"isIntermediate" = true');
-        } else {
-            typeFilters.push('"isIntermediate" = false')
-        }
-        if (type.includes('D')) {
-            typeFilters.push('"isDeliverable" = true');
-        } else {
-            typeFilters.push('"isDeliverable" = false')
-        }
+        query += ` WHERE p."type" = :type`;
+        replacements.type = type;
     }
 
     if (searchColumn && searchText !== undefined) {
-        query += ` WHERE "${searchColumn}"::text LIKE :search`;
-        replacements.search = `%${searchText}%`;
-
-        if (typeFilters.length > 0) {
-            query += ` AND (${typeFilters.join(' AND ')})`;
+        if (type) {
+            query += ` AND p."${searchColumn}"::text LIKE :search`;
+        } else {
+            query += ` WHERE p."${searchColumn}"::text LIKE :search`;
         }
-    } else if (typeFilters.length > 0) {
-        query += ` WHERE ${typeFilters.join(' AND ')}`;
+        replacements.search = `%${searchText}%`;
     }
 
-    query += ` ORDER BY "${column}" ${order} LIMIT :limit OFFSET :offset`;
+    query += ` ORDER BY p."${column}" ${order} LIMIT :limit OFFSET :offset`;
 
-    let result = await sequelize.query(query, {
-        replacements: replacements,
-    });
+    try {
+        const result = await sequelize.query(query, {
+            replacements: replacements,
+        });
 
-    return result;
+        return result;
+    } catch (error) {
+        console.error('Error fetching parts:', error);
+        throw error;
+    }
 };
 
 
-exports.getPartsCount = async (searchColumn, searchText, type) => {
+
+
+
+
+exports.getPartsCount = async (searchColumn, searchText, partType) => {
     let query = `SELECT COUNT(*)
-                 FROM "Parts"`;
+                 FROM "Parts" p`;
+
     const replacements = {
         search: `%${searchText}%`
     };
 
-    const typeFilters = [];
-
-    if (type) {
-        if (type.includes('R')) {
-            typeFilters.push('"isRaw" = true');
-        } else {
-            typeFilters.push('"isRaw" = false');
-        }
-        if (type.includes('B')) {
-            typeFilters.push('"isBought" = true');
-        } else {
-            typeFilters.push('"isBought" = false');
-        }
-        if (type.includes('I')) {
-            typeFilters.push('"isIntermediate" = true');
-        } else {
-            typeFilters.push('"isIntermediate" = false');
-        }
-        if (type.includes('D')) {
-            typeFilters.push('"isDeliverable" = true');
-        } else {
-            typeFilters.push('"isDeliverable" = false');
-        }
+    if (partType) {
+        query += ` WHERE p."type" = :type`;
+        replacements.type = partType;
     }
-
-    let whereClause = '';
 
     if (searchColumn && searchText !== undefined) {
-        whereClause = ` WHERE "${searchColumn}"::text LIKE :search`;
-        if (typeFilters.length > 0) {
-            whereClause += ` AND (${typeFilters.join(' AND ')})`;
+        if (partType) {
+            query += ` AND p."${searchColumn}"::text LIKE :search`;
+        } else {
+            query += ` WHERE p."${searchColumn}"::text LIKE :search`;
         }
-    } else if (typeFilters.length > 0) {
-        whereClause = ` WHERE ${typeFilters.join(' AND ')}`;
     }
 
-    query += whereClause;
-
-    const result = await sequelize.query(query, {
+    return await sequelize.query(query, {
         replacements: replacements,
-        type: sequelize.QueryTypes.COUNT,
     });
 
-    return result;
+
 };

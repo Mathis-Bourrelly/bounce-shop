@@ -29,10 +29,7 @@ CREATE TABLE "Suppliers" (
 -- Table: PartAll
 CREATE TABLE "Parts" (
     "partID" SERIAL PRIMARY KEY,
-    "isBought" BOOLEAN NOT NULL,
-    "isDeliverable" BOOLEAN NOT NULL,
-    "isRaw" BOOLEAN NOT NULL,
-    "isIntermediate" BOOLEAN NOT NULL,
+    "type" CHAR(1) NOT NULL,
     "quantity" INTEGER NOT NULL,
     "supplierID" INTEGER NOT NULL REFERENCES "Suppliers"("supplierID"),
     "label" VARCHAR NOT NULL,
@@ -71,7 +68,7 @@ CREATE TABLE "Users" (
 CREATE TABLE "Ranges" (
     "rangeID" SERIAL PRIMARY KEY,
     "partID" INTEGER NOT NULL REFERENCES "Parts"("partID"),
-    "userID" UUID NOT NULL REFERENCES "Users"("userID")
+    "userID" UUID NULL REFERENCES "Users"("userID")
 );
 
 -- Table: Operation
@@ -85,12 +82,11 @@ CREATE TABLE "Operations" (
 
 -- Table: OperationHistory
 CREATE TABLE "OperationHistories" (
-    "operationID" INTEGER REFERENCES "Operations"("operationID"),
+    "operationHistoryID" SERIAL PRIMARY KEY,
     "rangeID" INTEGER NOT NULL REFERENCES "Ranges"("rangeID"),
     "workStationID" INTEGER NOT NULL REFERENCES "WorkStations"("workStationID"),
     "machineID" INTEGER NOT NULL REFERENCES "Machines"("machineID"),
-    "workTime" INTEGER NOT NULL,
-    PRIMARY KEY("operationID", "rangeID")
+    "workTime" INTEGER NOT NULL
 );
 
 -- Table: QuoteLine

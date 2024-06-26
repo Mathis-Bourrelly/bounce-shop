@@ -12,20 +12,8 @@ const parts = sequelize.define('Parts', {
             allowNull: false,
             primaryKey: true
         },
-        isBought: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-        },
-        isDeliverable: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-        },
-        isRaw: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-        },
-        isIntermediate: {
-            type: DataTypes.BOOLEAN,
+        type: {
+            type: DataTypes.CHAR(1),
             allowNull: false,
         },
         quantity: {
@@ -56,12 +44,12 @@ const parts = sequelize.define('Parts', {
     }
 )
 
-parts.hasOne(suppliers, {
+parts.belongsTo(suppliers, {
     foreignKey: {
         name: 'supplierID',
     }});
 
-parts.belongsTo(ranges, {
+parts.hasOne(ranges, {
     foreignKey: {
         name: 'partID',
     }});

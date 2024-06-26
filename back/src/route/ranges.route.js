@@ -27,11 +27,12 @@ router.get('/:id', async (req, res) => {
 
 // Créer une nouvelle range
 router.post('/', async (req, res) => {
+    console.log(req.body)
     try {
         const newRange = await rangeRepository.createRange(req.body);
         res.status(201).json(newRange);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err });
     }
 });
 

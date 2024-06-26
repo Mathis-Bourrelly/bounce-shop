@@ -2,19 +2,15 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../core/postgres');
 
 const operationHistories = sequelize.define('OperationHistories', {
-    operationID: {
+    operationHistoryID: {
+        autoIncrement: true,
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true,
-        references: {
-            model: 'Operations',
-            key: 'operationID',
-        }
+        primaryKey: true
     },
     rangeID: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true
     },
     workStationID: {
         type: DataTypes.INTEGER,

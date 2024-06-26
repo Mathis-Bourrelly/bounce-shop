@@ -15,19 +15,19 @@ router.get('/getAll', async (req, res) => {
 router.get('/getByQuery/:direction/:column/:page?', async (req, res) => {
     const { direction, column, page } = req.params;
     const pageSize = 13;
-
-    const types = req.query.type || '';
+    const { searchColumn, searchText } = req.query;
+    let type = req.query.type || '';
 
     try {
-        const parts = await partRepository.getParts(column, direction, page, pageSize, req.query.searchColumn, req.query.searchText, types);
-        const partsCount = await partRepository.getPartsCount(req.query.searchColumn, req.query.searchText, types);
-        res.send({parts:parts[0],count:partsCount[0][0].count});
-        //res.send(parts[0]);
+        const parts = await partRepository.getParts(column, direction, page, pageSize, searchColumn, searchText, type);
+        const partsCount = await partRepository.getPartsCount(searchColumn, searchText, type);
+        res.send({ parts: parts[0], count: partsCount[0][0].count });
     } catch (e) {
         console.error(e);
         res.status(500).send({ error: e.message });
     }
 });
+
 
 
 router.get('/getByID/:id', async (req, res) => {
@@ -46,12 +46,8 @@ router.get('/getPrevParts/:id', async (req, res) => {
 });
 
 router.post('/',
-    body('isBought').not().isEmpty().isBoolean(),
-    body('isDeliverable').not().isEmpty().isBoolean(),
-    body('isRaw').not().isEmpty().isBoolean(),
-    body('isIntermediate').not().isEmpty().isBoolean(),
+    body('type').not().isEmpty(),
     body('quantity').not().isEmpty().isInt(),
-    body('supplierID').not().isEmpty().isInt(),
     body('label').not().isEmpty(),
     body('description').not().isEmpty(),
     async (req, res) => {
@@ -66,6 +62,8 @@ router.post('/',
 router.post('/previousPart',
     body('partID').not().isEmpty().isInt(),
     body('quantity').not().isEmpty().isInt(),
+    body('prevLabel').not().isEmpty(),
+    body('mainPartID').not().isEmpty().isInt(),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
