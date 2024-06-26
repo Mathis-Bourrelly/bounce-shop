@@ -32,29 +32,56 @@ const PartForm = () => {
         fetchSuppliers();
         fetchUsers();
     }, []);
+    const getFirstTrueType = (filters) => {
+        for (const key in filters) {
+            if (filters[key]) {
+                return key.charAt(0).toUpperCase();
+            }
+        }
+        return null;
+    };
     const onSubmit = async (data) => {
+        data.type = getFirstTrueType(typeFilters)
+        document.getElementById("alert-server").style.display = "none"
+        document.getElementById("alert-input").style.display = "none"
+        try {
         let newPart = await api.postFromRoute("parts", data, token)
-        let priceData = {
-            price: data.price,
-            date: Date.now(),
-            partID: newPart.partID
+        if (typeFilters["bought"] || typeFilters["deliverable"] || typeFilters["raw"]) {
+            let priceData = {
+                price: data.price,
+                date: Date.now(),
+                partID: newPart.partID
+            }
+            await api.postFromRoute("parts/prices", priceData, token)
         }
-        await api.postFromRoute("parts/prices", priceData, token)
-        let rangeData = {
-            partID: newPart.partID,
-            userID: data.personInCharge
+        if (typeFilters["intermediate"] || typeFilters["deliverable"]) {
+            let rangeData = {
+                partID: newPart.partID,
+                userID: data.personInCharge
+            }
+            for (const selectedPart of selectedParts) {
+                let previousPartData = {
+                    partID: selectedPart.partID,
+                    quantity: selectedPart.quantity,
+                    mainPartID: newPart.partID,
+                    prevLabel: selectedPart.label
+                };
+                await api.postFromRoute("parts/previousPart", previousPartData, token);
+            }
+            await api.postFromRoute("ranges", rangeData, token)
         }
-        for (const selectedPart of selectedParts) {
-            let previousPartData = {
-                partID: selectedPart.partID,
-                quantity: selectedPart.quantity,
-                mainPartID: newPart.partID,
-                prevLabel: selectedPart.label
-            };
-            await api.postFromRoute("parts/previousPart", previousPartData, token);
+            await api.navigateTo("/part?toastData=partSuccess")
         }
-        await api.postFromRoute("ranges", rangeData, token)
-        console.log(newPart)
+        catch (e) {
+            if (e === 500) {
+                document.getElementById("alert-server").style.display = "block"
+            }
+            if (e === 400){
+                document.getElementById("alert-input").style.display = "block"
+            }
+            console.log(e)
+        }
+
     };
 
 
@@ -84,12 +111,12 @@ const PartForm = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="form">
                 <div className="form-group">
                     <label className="title-label">Nom</label>
-                    <input {...register('label')} placeholder="Nom"/>
+                    <input {...register('label')} required placeholder="Nom"/>
                 </div>
 
                 <div className="form-group">
                     <label className="title-label">Déscription</label>
-                    <textarea {...register('description')} placeholder="Déscription"/>
+                    <textarea {...register('description')} required placeholder="Déscription"/>
                 </div>
 
                 <div className="form-group">
@@ -97,7 +124,7 @@ const PartForm = () => {
                     <div className="button-group">
                         <div className="cat bought">
                             <label className="type-checkbox bought">
-                                <input {...register('isBought')} checked={typeFilters.bought}
+                                <input checked={typeFilters.bought}
                                        onChange={() => handleType("bought")}
                                        type="checkbox"/>
                                 <span>Acheté</span>
@@ -106,7 +133,7 @@ const PartForm = () => {
 
                         <div className="cat deliverable">
                             <label className="type-checkbox deliverable">
-                                <input {...register('isDeliverable')} checked={typeFilters.deliverable}
+                                <input checked={typeFilters.deliverable}
                                        onChange={() => handleType("deliverable")}
                                        type="checkbox"/>
                                 <span>Déliverable</span>
@@ -115,7 +142,7 @@ const PartForm = () => {
 
                         <div className="cat raw">
                             <label className="type-checkbox raw">
-                                <input {...register('isRaw')} checked={typeFilters.raw}
+                                <input checked={typeFilters.raw}
                                        onChange={() => handleType("raw")} type="checkbox"/>
                                 <span>Matériaux</span>
                             </label>
@@ -123,7 +150,7 @@ const PartForm = () => {
 
                         <div className="cat intermediate">
                             <label className="type-checkbox intermediate">
-                                <input {...register('isIntermediate')} checked={typeFilters.intermediate}
+                                <input checked={typeFilters.intermediate}
                                        onChange={() => handleType("intermediate")}
                                        type="checkbox"/>
                                 <span>Intermédiaire</span>
@@ -134,25 +161,25 @@ const PartForm = () => {
 
                 <div className="form-group">
                     <label className="title-label">Quantité</label>
-                    <input {...register('quantity')} placeholder="Quantité" type="number"/>
+                    <input {...register('quantity')} required placeholder="Quantité" type="number"/>
                 </div>
                 {(typeFilters["bought"]) &&<div id='priceField' className="form-group">
                     <label className="title-label">Prix d'achat</label>
-                    <input {...register('price')} placeholder="Prix" type="number"/>
+                    <input {...register('price')} required placeholder="Prix" type="number"/>
                 </div>}
                 {(typeFilters["raw"]) &&<div id='priceField' className="form-group">
                     <label className="title-label">Prix d'achat</label>
-                    <input {...register('price')} placeholder="Prix" type="number"/>
+                    <input {...register('price')} required placeholder="Prix" type="number"/>
                 </div>}
                 {(typeFilters["deliverable"]) &&<div id='priceField' className="form-group">
                     <label className="title-label">Prix de vente</label>
-                    <input {...register('price')} placeholder="Prix" type="number"/>
+                    <input {...register('price')} required placeholder="Prix" type="number"/>
                 </div>}
 
 
                 {typeFilters["intermediate"] && <div id="personInChargeField" className="form-group">
                     <label className="title-label">Résponsable</label>
-                    <select {...register('personInCharge')}>
+                    <select {...register('personInCharge')} required>
                         <option value="">Sélectionnez un résponsable</option>
                         {users.map((user) => (
                             <option key={user.userID} value={user.userID}>{user.name}</option>
@@ -163,7 +190,7 @@ const PartForm = () => {
                 {(typeFilters["raw"] || typeFilters["bought"]) &&<div id='supplierField' className="form-group">
                     <label className="title-label">Fournisseur</label>
                     <div className="form-group">
-                        <select {...register('supplierID')}>
+                        <select {...register('supplierID')} required>
                             <option value="">Sélectionnez un Fournisseur</option>
                             {suppliers.map((supplier) => (
                                 <option key={supplier.supplierID} value={supplier.supplierID}>{supplier.name}</option>
@@ -203,7 +230,12 @@ const PartForm = () => {
                         </tbody>
                     </table>
                 </div>}
-
+                <div className="card-alert" id="alert-server" style={{display:"none"}}>
+                    Erreur serveur, veuillez réessayer ultérieurement.
+                </div>
+                <div className="card-alert" id="alert-input" style={{display:"none"}}>
+                   Veuillez remplir tout les champs et sélectionner un type.
+                </div>
                 <button type="submit" className="btn-color">Enregister</button>
             </form>
         </div>

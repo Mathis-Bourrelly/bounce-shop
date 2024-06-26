@@ -26,7 +26,7 @@ export default class Api {
                         return response.json().then(data => resolve(data));
                     } else {
                         console.log(`${response.status} : ${response.statusText}`);
-                        reject(new Error(`HTTP error ${response.status}: ${response.statusText}`));
+                        reject(response.status);
                     }
                 })
                 .catch(err => {

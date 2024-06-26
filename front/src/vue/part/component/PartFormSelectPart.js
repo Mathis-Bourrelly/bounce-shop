@@ -24,18 +24,18 @@ const PartFormSelectPart = ({ token, onSelectedPartsChange}) => {
     };
 
     const handleAddPart = (selectedID) => {
-        console.log(lastSearch)
+        console.log("selectedID",selectedID)
         const selectedPart = lastSearch.find(part => part.partID === selectedID);
         console.log("selectedPart",selectedPart)
         setSelectedParts([...selectedParts, { ...selectedPart, quantity: 1 }]);
-        onSelectedPartsChange(selectedPart); // Appel du callback pour mettre à jour le parent
+        onSelectedPartsChange(selectedParts);
     };
 
     const handleQuantityChange = (index, newQuantity) => {
         const updatedParts = [...selectedParts];
         updatedParts[index].quantity = newQuantity;
         setSelectedParts(updatedParts);
-        onSelectedPartsChange(updatedParts); // Appel du callback pour mettre à jour le parent
+        onSelectedPartsChange(updatedParts);
     };
 
     return (

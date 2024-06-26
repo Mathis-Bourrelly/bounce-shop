@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import "./css/partList.css";
 import PartListItem from './PartListItem';
 import Pagination from "../../component/Pagination";
 import Api from "../../../API";
 
+import {ToastContainer, toast, Bounce} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const Table = () => {
     const [parts, setParts] = useState([]);
-    const [sortConfig, setSortConfig] = useState({ key: 'partID', direction: 'asc' });
+    const [sortConfig, setSortConfig] = useState({key: 'partID', direction: 'asc'});
     const [searchText, setSearchText] = useState('');
     const [searchColumn, setSearchColumn] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,10 +23,33 @@ const Table = () => {
     });
     const itemPerPage = 13;
     const api = new Api();
+    const queryParameters = new URLSearchParams(window.location.search)
+    const toastData = queryParameters.get("toastData")
 
     useEffect(() => {
         fetchParts();
     }, [sortConfig, searchText, searchColumn, currentPage, typeFilters]);
+
+    useEffect(() => {
+            switch (toastData) {
+                case "partSuccess" :
+                    toast.success("Pièce créer avec succès", {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: 0,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                    break
+
+                default :
+                    break
+                }
+    },[toastData])
 
     const fetchParts = async () => {
         const token = sessionStorage.getItem("token");
@@ -62,12 +89,16 @@ const Table = () => {
 
     const getSortIcon = (key) => {
         if (sortConfig.key !== key) {
-            return <img width="16" height="16" src="https://img.icons8.com/fluency-systems-regular/48/sort.png" alt="sort" />;
+            return <img width="16" height="16" src="https://img.icons8.com/fluency-systems-regular/48/sort.png"
+                        alt="sort"/>;
         }
         if (sortConfig.direction === 'asc') {
-            return <img width="16" height="16" src="https://img.icons8.com/fluency-systems-regular/48/sort-amount-up.png" alt="sort-amount-up" />;
+            return <img width="16" height="16"
+                        src="https://img.icons8.com/fluency-systems-regular/48/sort-amount-up.png"
+                        alt="sort-amount-up"/>;
         }
-        return <img width="16" height="16" src="https://img.icons8.com/fluency-systems-regular/48/generic-sorting.png" alt="generic-sorting" />;
+        return <img width="16" height="16" src="https://img.icons8.com/fluency-systems-regular/48/generic-sorting.png"
+                    alt="generic-sorting"/>;
     };
 
     const requestSort = (key) => {
@@ -75,7 +106,7 @@ const Table = () => {
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
             direction = 'desc';
         }
-        setSortConfig({ key, direction });
+        setSortConfig({key, direction});
     };
 
     const handleSearchTextChange = (e) => {
@@ -109,18 +140,21 @@ const Table = () => {
     };
 
     return (
+
         <div className="table-container">
             <div className="table-top-bar">
                 <div className="part-research">
-                    <input id="searchField" type="text" onChange={handleSearchTextChange} placeholder="🔎recherche" />
-                    <select name="column" id="column-select" value={searchColumn} onChange={handleSearchColumnChange}>
+                    <input id="searchField" type="text" onChange={handleSearchTextChange} placeholder="🔎recherche"/>
+                    <select name="column" id="column-select" value={searchColumn}
+                            onChange={handleSearchColumnChange}>
                         <option value="no_filter">Aucun filtre</option>
                         <option value="partID">ID</option>
                         <option value="label">Nom</option>
                         <option value="description">Description</option>
-                        {/* <option value="rangeID">Gamme</option> */}
+                        <option value="rangeID">Gamme</option>
+                        <option value="suppliername">Fournisseur</option>
                         <option value="quantity">Quantité</option>
-                        {/* <option value="price">Prix</option> */}
+                        <option value="price">Prix</option>
                     </select>
                     <div className="cat bought">
                         <label className="type-checkbox bought">
@@ -172,36 +206,55 @@ const Table = () => {
                 <thead>
                 <tr>
                     <th>
-                        <a className="sortable-column" onClick={() => requestSort('partID')}>ID{getSortIcon('partID')}</a>
+                        <a className="sortable-column"
+                           onClick={() => requestSort('partID')}>ID{getSortIcon('partID')}</a>
                     </th>
                     <th>
-                        <a className="sortable-column" onClick={() => requestSort('label')}>Nom{getSortIcon('label')}</a>
+                        <a className="sortable-column"
+                           onClick={() => requestSort('label')}>Nom{getSortIcon('label')}</a>
                     </th>
                     <th>
-                        <a className="sortable-column" onClick={() => requestSort('rangeID')}>Gamme{getSortIcon('rangeID')}</a>
+                        <a className="sortable-column"
+                           onClick={() => requestSort('rangeID')}>Gamme{getSortIcon('rangeID')}</a>
                     </th>
                     <th>
-                        <a className="sortable-column" onClick={() => requestSort('suppliername')}>Fournisseur{getSortIcon('suppliername')}</a>
+                        <a className="sortable-column"
+                           onClick={() => requestSort('suppliername')}>Fournisseur{getSortIcon('suppliername')}</a>
                     </th>
                     <th>Type</th>
                     <th>
-                        <a className="sortable-column" onClick={() => requestSort('quantity')}>Quantité{getSortIcon('quantity')}</a>
+                        <a className="sortable-column"
+                           onClick={() => requestSort('quantity')}>Quantité{getSortIcon('quantity')}</a>
                     </th>
                     <th>
-                        <a className="sortable-column" onClick={() => requestSort('price')}>Prix{getSortIcon('price')}</a>
+                        <a className="sortable-column"
+                           onClick={() => requestSort('price')}>Prix{getSortIcon('price')}</a>
                     </th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 {parts.map((part) => (
-                    <PartListItem key={part.partID} part={part} api={api} />
+                    <PartListItem key={part.partID} part={part} api={api}/>
                 ))}
                 </tbody>
             </table>
             <div className="table-bottom-bar">
-                <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+                <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={10}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable={false}
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+            />
         </div>
     );
 };

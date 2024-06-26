@@ -10,7 +10,7 @@ const PricesParts = ({prices}) => {
                 <th>Action</th>
             </tr>
             </thead>
-            <tbody>
+            {prices &&<tbody>
             {prices.map(price => (
                 <tr key={price.id}>
                     <td>{price.date}</td>
@@ -18,7 +18,7 @@ const PricesParts = ({prices}) => {
                     <td>...</td>
                 </tr>
             ))}
-            </tbody>
+            </tbody>}
         </table>
     );
 };

@@ -78,8 +78,7 @@ const PartDetail = () => {
                                             <div className="sm-text">{part.quantity} pieces available</div>
                                         </div>
                                         <div className="detail-item">
-                                            <strong>{part.Prices[0].price}€</strong><span
-                                            className="sm-text"> /pièce</span>
+                                            {part.Prices[0] &&<><strong>{part.Prices[0].price}€</strong><span className="sm-text"> /pièce</span></>}
                                         </div>
 
                                         <p>{part.description}</p>
