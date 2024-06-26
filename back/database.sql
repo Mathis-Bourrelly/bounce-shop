@@ -31,9 +31,9 @@ CREATE TABLE "Parts" (
     "partID" SERIAL PRIMARY KEY,
     "type" CHAR(1) NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "supplierID" INTEGER NOT NULL REFERENCES "Suppliers"("supplierID"),
+    "supplierID" INTEGER NULL REFERENCES "Suppliers"("supplierID"),
     "label" VARCHAR NOT NULL,
-    description TEXT
+    description TEXT NOT NULL
 );
 
 -- Table: Price

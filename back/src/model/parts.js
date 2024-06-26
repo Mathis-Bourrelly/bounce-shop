@@ -22,7 +22,7 @@ const parts = sequelize.define('Parts', {
         },
         supplierID: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'Suppliers',
                 key: 'supplierID',

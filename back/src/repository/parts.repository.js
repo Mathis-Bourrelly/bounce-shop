@@ -1,5 +1,5 @@
 const {sequelize} = require("../core/postgres");
-const { Op } = require('@sequelize/core');
+const {Op} = require('@sequelize/core');
 const previousParts = require('../model/previousParts');
 const prices = require('../model/prices');
 const parts = require('../model/parts');
@@ -39,16 +39,16 @@ exports.getByString = async (searchString) => {
     const whereCondition = {
         //[Op.or]: [
         //    {
-                label: { [Op.like]: `%${searchString}%` }
+        label: {[Op.like]: `%${searchString}%`}
         //    }
         //]
     };
-/*
+    /*
 
-    if (isNumeric) {
-        whereCondition[Op.or].push({ partID: searchString });
-    }
-*/
+        if (isNumeric) {
+            whereCondition[Op.or].push({ partID: searchString });
+        }
+    */
 
     return await parts.findAll({
         where: whereCondition,
@@ -86,7 +86,7 @@ exports.deletePart = async (partID) => {
     await parts.destroy({where: {partID}});
 };
 
-exports.getParts = async (column, direction, page, pageSize, searchColumn, searchText, type) => {
+exports.getParts = async (column, direction, page, pageSize, searchColumn, searchText, partType) => {
     const offset = (page - 1) * pageSize;
     const order = `${direction.toUpperCase()}`;
     const replacements = {
@@ -97,34 +97,45 @@ exports.getParts = async (column, direction, page, pageSize, searchColumn, searc
     let query = `
         SELECT p.*, pr.price, r."rangeID", s.name as supplierName
         FROM "Parts" p
-        LEFT JOIN (
-            SELECT pr1.*
-            FROM "Prices" pr1
-            INNER JOIN (
-                SELECT "partID", MAX("date") as maxDate
-                FROM "Prices"
-                GROUP BY "partID"
-            ) pr2 ON pr1."partID" = pr2."partID" AND pr1."date" = pr2.maxDate
-        ) pr ON p."partID" = pr."partID"
-        LEFT JOIN "Ranges" r ON p."partID" = r."partID"
-        LEFT JOIN "Suppliers" s ON p."supplierID" = s."supplierID"
-    `;
+                 LEFT JOIN (SELECT pr1.*
+                            FROM "Prices" pr1
+                                     INNER JOIN (SELECT "partID", MAX("date") as maxDate
+                                                 FROM "Prices"
+                                                 GROUP BY "partID") pr2
+                                                ON pr1."partID" = pr2."partID" AND pr1."date" = pr2.maxDate) pr
+                           ON p."partID" = pr."partID"
+                 LEFT JOIN "Ranges" r ON p."partID" = r."partID"
+                 LEFT JOIN "Suppliers" s ON p."supplierID" = s."supplierID"`;
 
-    if (type) {
-        query += ` WHERE p."type" = :type`;
-        replacements.type = type;
+    let whereClause = '';
+
+    if (partType) {
+        whereClause = ` WHERE p."type" = :type`;
+        replacements.type = partType;
     }
 
     if (searchColumn && searchText !== undefined) {
-        if (type) {
-            query += ` AND p."${searchColumn}"::text LIKE :search`;
+        const searchCondition = ` ${searchColumn === "price" ? 'pr."price"' : searchColumn === "suppliername" ? 's."name"' : searchColumn === "rangeID" ? 'r."rangeID"' : `p."${searchColumn}"`}::text LIKE :search`;
+
+        if (whereClause) {
+            whereClause += ` AND ${searchCondition}`;
         } else {
-            query += ` WHERE p."${searchColumn}"::text LIKE :search`;
+            whereClause = ` WHERE ${searchCondition}`;
         }
         replacements.search = `%${searchText}%`;
     }
 
-    query += ` ORDER BY p."${column}" ${order} LIMIT :limit OFFSET :offset`;
+    query += whereClause;
+
+    if ((column === "partID") || (column === "label") || (column === "quantity")) {
+        query += ` ORDER BY p."${column}" ${order} LIMIT :limit OFFSET :offset`;
+    } else if (column === "price") {
+        query += ` ORDER BY pr."price" ${order} LIMIT :limit OFFSET :offset`;
+    } else if (column === "suppliername") {
+        query += ` ORDER BY s."name" ${order} LIMIT :limit OFFSET :offset`;
+    } else if (column === "rangeID") {
+        query += ` ORDER BY r."rangeID" ${order} LIMIT :limit OFFSET :offset`;
+    }
 
     try {
         const result = await sequelize.query(query, {
@@ -139,34 +150,55 @@ exports.getParts = async (column, direction, page, pageSize, searchColumn, searc
 };
 
 
-
-
-
-
 exports.getPartsCount = async (searchColumn, searchText, partType) => {
-    let query = `SELECT COUNT(*)
-                 FROM "Parts" p`;
+    let query = `
+        SELECT COUNT(*)
+        FROM (
+            SELECT p."partID"
+            FROM "Parts" p
+            LEFT JOIN "Suppliers" s ON p."supplierID" = s."supplierID"
+            LEFT JOIN "Prices" pr ON p."partID" = pr."partID"
+            LEFT JOIN "Ranges" r ON p."partID" = r."partID"
+    `;
 
     const replacements = {
         search: `%${searchText}%`
     };
 
+    let whereClause = '';
+
     if (partType) {
-        query += ` WHERE p."type" = :type`;
+        whereClause = ` WHERE p."type" = :type`;
         replacements.type = partType;
     }
 
     if (searchColumn && searchText !== undefined) {
-        if (partType) {
-            query += ` AND p."${searchColumn}"::text LIKE :search`;
+        const searchCondition = ` ${searchColumn === "price" ? 'pr."price"' : searchColumn === "suppliername" ? 's."name"' : searchColumn === "rangeID" ? 'r."rangeID"' : `p."${searchColumn}"`}::text LIKE :search`;
+
+        if (whereClause) {
+            whereClause += ` AND ${searchCondition}`;
         } else {
-            query += ` WHERE p."${searchColumn}"::text LIKE :search`;
+            whereClause = ` WHERE ${searchCondition}`;
         }
+        replacements.search = `%${searchText}%`;
     }
 
-    return await sequelize.query(query, {
-        replacements: replacements,
-    });
+    query += whereClause;
 
+    query += `
+            GROUP BY p."partID"
+        ) as countSubquery
+    `;
 
+    try {
+        return await sequelize.query(query, {
+            replacements: replacements,
+        });
+
+    } catch (error) {
+        console.error('Error fetching parts count:', error);
+        throw error;
+    }
 };
+
+

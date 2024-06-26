@@ -16,11 +16,11 @@ router.get('/getByQuery/:direction/:column/:page?', async (req, res) => {
     const { direction, column, page } = req.params;
     const pageSize = 13;
     const { searchColumn, searchText } = req.query;
-    let type = req.query.type || '';
+    let partType = req.query.type || undefined;
 
     try {
-        const parts = await partRepository.getParts(column, direction, page, pageSize, searchColumn, searchText, type);
-        const partsCount = await partRepository.getPartsCount(searchColumn, searchText, type);
+        const parts = await partRepository.getParts(column, direction, page, pageSize, searchColumn, searchText, partType);
+        const partsCount = await partRepository.getPartsCount(searchColumn, searchText, partType);
         res.send({ parts: parts[0], count: partsCount[0][0].count });
     } catch (e) {
         console.error(e);
