@@ -1,36 +1,36 @@
-drop table "Prices" cascade;
+drop table if exists "Prices";
 
-drop table "PreviousParts" cascade;
+drop table if exists "PreviousParts";
 
-drop table "Operations" cascade;
+drop table if exists "OperationLists";
 
-drop table "OperationLists" cascade;
+drop table if exists "Operations";
 
-drop table "OperationHistories" cascade;
+drop table if exists "OperationHistories";
 
-drop table "Machines" cascade;
+drop table if exists "Machines";
 
-drop table "WorkStations" cascade;
+drop table if exists "WorkStations";
 
-drop table "ValidMachines" cascade;
+drop table if exists "ValidMachines";
 
-drop table "JobQualifications" cascade;
+drop table if exists "JobQualifications";
 
-drop table "Ranges" cascade;
+drop table if exists "Ranges";
 
-drop table "Users" cascade;
+drop table if exists "Users";
 
-drop table "QuoteLines" cascade;
+drop table if exists "QuoteLines";
 
-drop table "Quotes" cascade;
+drop table if exists "Quotes";
 
-drop table "OrderLines" cascade;
+drop table if exists "OrderLines";
 
-drop table "Parts" cascade;
+drop table if exists "Parts";
 
-drop table "Suppliers" cascade;
+drop table if exists "Suppliers";
 
-drop table "Orders" cascade;
+drop table if exists "Orders";
 
 
 -- Table: ValidMachine
