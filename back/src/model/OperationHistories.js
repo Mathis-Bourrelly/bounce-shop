@@ -23,6 +23,10 @@ const operationHistories = sequelize.define('OperationHistories', {
     workTime: {
         type: DataTypes.INTEGER,
         allowNull: true
+    },
+    label: {
+        type: DataTypes.STRING,
+        allowNull: false,
     }
 }, {
     timestamps: false,

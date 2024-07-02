@@ -12,7 +12,6 @@ module.exports = {
                 password:  bcrypt.hashSync('test', salt),
                 email: 'test@test.fr',
                 role: 'admin',
-                jobQualificationListID: 1
             },
             {
                 userID: '00000000-0000-0000-0000-000000000002',
@@ -20,7 +19,6 @@ module.exports = {
                 password: bcrypt.hashSync('test', salt),
                 email: 'jane.smith@example.com',
                 role: 'user',
-                jobQualificationListID: 2
             },
             {
                 userID: '00000000-0000-0000-0000-000000000003',
@@ -28,7 +26,6 @@ module.exports = {
                 password: bcrypt.hashSync('test', salt),
                 email: 'jim.brown@example.com',
                 role: 'user',
-                jobQualificationListID: 3
             }
         ], {});
     },

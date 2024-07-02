@@ -5,6 +5,9 @@ const prices = require('../model/prices');
 const parts = require('../model/parts');
 const suppliers = require('../model/suppliers');
 const ranges = require('../model/ranges');
+const operations = require('../model/operations');
+const machines = require("../model/machines");
+const workStations = require("../model/workStations");
 
 exports.getAllParts = async () => await parts.findAll();
 
@@ -19,6 +22,22 @@ exports.getPartById = async (partID) => {
             {
                 model: ranges,
                 required: false,
+                include: [
+                    {
+                        model: operations,
+                        required: false,
+                        include: [
+                            {
+                                model: machines,
+                                required: false
+                            },
+                            {
+                                model: workStations,
+                                required: false
+                            }
+                        ]
+                    }
+                ]
             },
             {
                 model: prices,
@@ -153,12 +172,11 @@ exports.getParts = async (column, direction, page, pageSize, searchColumn, searc
 exports.getPartsCount = async (searchColumn, searchText, partType) => {
     let query = `
         SELECT COUNT(*)
-        FROM (
-            SELECT p."partID"
-            FROM "Parts" p
-            LEFT JOIN "Suppliers" s ON p."supplierID" = s."supplierID"
-            LEFT JOIN "Prices" pr ON p."partID" = pr."partID"
-            LEFT JOIN "Ranges" r ON p."partID" = r."partID"
+        FROM (SELECT p."partID"
+              FROM "Parts" p
+                       LEFT JOIN "Suppliers" s ON p."supplierID" = s."supplierID"
+                       LEFT JOIN "Prices" pr ON p."partID" = pr."partID"
+                       LEFT JOIN "Ranges" r ON p."partID" = r."partID"
     `;
 
     const replacements = {

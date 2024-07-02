@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 // Récupérer une range par ID
-router.get('/:id', async (req, res) => {
+router.get('getByID/:id', async (req, res) => {
     try {
         const range = await rangeRepository.getRangeById(req.params.id);
         if (!range) {
@@ -25,9 +25,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Créer une nouvelle range
 router.post('/', async (req, res) => {
-    console.log(req.body)
     try {
         const newRange = await rangeRepository.createRange(req.body);
         res.status(201).json(newRange);
@@ -35,8 +33,15 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: err });
     }
 });
+router.post('/addOperation', async (req, res) => {
+    try {
+        const newOperationList = await rangeRepository.addOperation(req.body);
+        res.status(201).json(newOperationList);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
 
-// Mettre à jour une range existante
 router.put('/:id', async (req, res) => {
     try {
         const updatedRange = await rangeRepository.updateRange(req.params.id, req.body);
@@ -46,7 +51,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// Supprimer une range par ID
 router.delete('/:id', async (req, res) => {
     try {
         await rangeRepository.deleteRange(req.params.id);

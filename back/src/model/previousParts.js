@@ -17,7 +17,7 @@ const previousParts = sequelize.define('PreviousParts', {
             }
         },
         prevLabel: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         partID: {

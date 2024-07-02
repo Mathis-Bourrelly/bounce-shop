@@ -14,7 +14,7 @@ exports.sequelize = new Sequelize({
 });
 
 const modelDefiners = [
-    require('../model/jobQualificationLists'),
+    require('../model/jobQualifications'),
     require('../model/users'),
     require('../model/validMachines'),
     require('../model/workStations'),

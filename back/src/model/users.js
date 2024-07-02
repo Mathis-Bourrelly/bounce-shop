@@ -20,20 +20,12 @@ const users = sequelize.define('Users', {
         type: DataTypes.STRING(255),
         allowNull: false,
         unique: true
-
     },
     role: {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
-    jobQualificationListID: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: 'JobQualificationLists',
-            key: 'jobQualificationListID',
-        }
-    }
+
 }, {
     timestamps: false,
     createdAt: false,

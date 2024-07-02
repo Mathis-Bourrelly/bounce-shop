@@ -3,6 +3,7 @@ const { initializeConfigMiddlewares, initializeErrorMiddlewares } = require('./m
 const partsRoute = require('../route/parts.route');
 const usersRoute = require('../route/users.route');
 const machinesRoute = require('../route/machines.route');
+const workStationsRoute = require('../route/workStations.route');
 const operationsRoute = require('../route/operations.route');
 const rangesRoute = require('../route/ranges.route');
 const suppliersRoute = require('../route/suppliers.route');
@@ -37,6 +38,7 @@ class WebServer {
     this.app.use('/parts',partsRoute.initializeRoutes());
     this.app.use('/users',usersRoute.initializeRoutes());
     this.app.use('/machines',machinesRoute.initializeRoutes());
+    this.app.use('/workStations',workStationsRoute.initializeRoutes());
     this.app.use('/operations',operationsRoute.initializeRoutes());
     this.app.use('/ranges',rangesRoute.initializeRoutes());
     this.app.use('/suppliers',suppliersRoute.initializeRoutes());

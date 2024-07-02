@@ -1,0 +1,73 @@
+'use strict';
+
+module.exports = {
+    up: async (queryInterface, Sequelize) => {
+        //await queryInterface.bulkDelete('OperationsLists', null, {});
+        await queryInterface.bulkInsert('OperationLists', [
+            { rangeID: 1,  operationID: 1},
+            { rangeID: 2,  operationID: 1},
+            { rangeID: 3,  operationID: 1},
+            { rangeID: 4,  operationID: 1},
+            { rangeID: 5,  operationID: 1},
+            { rangeID: 6,  operationID: 1},
+            { rangeID: 7,  operationID: 1},
+            { rangeID: 8,  operationID: 1},
+            { rangeID: 9,  operationID: 1},
+            { rangeID: 10, operationID: 1},
+            { rangeID: 11, operationID: 1},
+            { rangeID: 12, operationID: 1},
+            { rangeID: 13, operationID: 1},
+            { rangeID: 14, operationID: 1},
+            { rangeID: 15, operationID: 1},
+            { rangeID: 16, operationID: 1},
+            { rangeID: 17, operationID: 1},
+            { rangeID: 18, operationID: 1},
+            { rangeID: 19, operationID: 1},
+            { rangeID: 20, operationID: 1},
+            { rangeID: 21, operationID: 1},
+            { rangeID: 22, operationID: 1},
+            { rangeID: 23, operationID: 1},
+            { rangeID: 24, operationID: 1},
+            { rangeID: 25, operationID: 1},
+            { rangeID: 26, operationID: 1},
+            { rangeID: 27, operationID: 1},
+            { rangeID: 28, operationID: 1},
+            { rangeID: 29, operationID: 1},
+            { rangeID: 30, operationID: 1},
+            { rangeID: 1,  operationID: 2},
+            { rangeID: 2,  operationID: 2},
+            { rangeID: 3,  operationID: 2},
+            { rangeID: 4,  operationID: 2},
+            { rangeID: 5,  operationID: 2},
+            { rangeID: 6,  operationID: 2},
+            { rangeID: 7,  operationID: 2},
+            { rangeID: 8,  operationID: 2},
+            { rangeID: 9,  operationID: 2},
+            { rangeID: 10, operationID: 2},
+            { rangeID: 11, operationID: 2},
+            { rangeID: 12, operationID: 3},
+            { rangeID: 13, operationID: 3},
+            { rangeID: 14, operationID: 3},
+            { rangeID: 15, operationID: 3},
+            { rangeID: 16, operationID: 3},
+            { rangeID: 17, operationID: 3},
+            { rangeID: 18, operationID: 3},
+            { rangeID: 19, operationID: 3},
+            { rangeID: 20, operationID: 3},
+            { rangeID: 21, operationID: 3},
+            { rangeID: 22, operationID: 3},
+            { rangeID: 23, operationID: 3},
+            { rangeID: 24, operationID: 3},
+            { rangeID: 25, operationID: 3},
+            { rangeID: 26, operationID: 3},
+            { rangeID: 27, operationID: 3},
+            { rangeID: 28, operationID: 3},
+            { rangeID: 29, operationID: 3},
+            { rangeID: 30, operationID: 3}
+        ], {});
+    },
+
+    down: async (queryInterface, Sequelize) => {
+        await queryInterface.bulkDelete('OperationLists', null, {});
+    }
+};

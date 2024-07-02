@@ -1,4 +1,5 @@
 const Ranges = require('../model/ranges');
+const OperationLists = require('../model/operationLists');
 
 exports.getAllRanges = async () => {
     return await Ranges.findAll();
@@ -11,6 +12,10 @@ exports.getRangeById = async (rangeID) => {
 exports.createRange = async (body) => {
     return await Ranges.create(body);
 };
+
+exports.addOperation = async (body) => {
+    return await OperationLists.create(body)
+}
 
 exports.updateRange = async (rangeID, data) => {
     const foundRange = await Ranges.findOne({ where: { rangeID } });

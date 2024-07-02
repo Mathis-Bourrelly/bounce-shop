@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const operationRepository = require('../repository/operations.repository');
+const partRepository = require("../repository/parts.repository");
 
 router.get('/', async (req, res) => {
     try {
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/getById/:id', async (req, res) => {
     try {
         const operation = await operationRepository.getOperationById(req.params.id);
         if (!operation) {
@@ -20,6 +21,27 @@ router.get('/:id', async (req, res) => {
         res.json(operation);
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+router.get('/search?', async (req, res) => {
+    let part = await operationRepository.getByString(req.query.term);
+    res.send(part);
+});
+
+router.get('/getByQuery/:direction/:column/:page?', async (req, res) => {
+    const { direction, column, page } = req.params;
+    const pageSize = 12;
+    const { searchColumn, searchText } = req.query;
+
+    try {
+        const operations = await operationRepository.getOperationsByQuery(column, direction, page, pageSize, searchColumn, searchText);
+        const operationsCount = await operationRepository.getOperationsCount(searchColumn, searchText);
+        console.log("operationsCount",operationsCount)
+        res.send({ operations: operations, count: operationsCount });
+    } catch (e) {
+        console.error(e);
+        res.status(500).send({ error: e.message });
     }
 });
 

@@ -14,7 +14,7 @@ router.get('/getAll', async (req, res) => {
 });
 router.get('/getByQuery/:direction/:column/:page?', async (req, res) => {
     const { direction, column, page } = req.params;
-    const pageSize = 13;
+    const pageSize = 12;
     const { searchColumn, searchText } = req.query;
     let partType = req.query.type || undefined;
 

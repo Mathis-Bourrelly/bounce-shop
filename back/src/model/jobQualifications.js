@@ -1,12 +1,20 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../core/postgres');
 
-const machines = sequelize.define('Machines', {
-    machineID: {
+const jobQualifications = sequelize.define('JobQualifications', {
+    jobQualificationID: {
         autoIncrement: true,
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
+    },
+    userID: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        references: {
+            model: 'users',
+            key: 'userID',
+        }
     },
     label: {
         type: DataTypes.STRING,
@@ -18,4 +26,4 @@ const machines = sequelize.define('Machines', {
     updatedAt: false,
 });
 
-module.exports = machines;
+module.exports = jobQualifications;

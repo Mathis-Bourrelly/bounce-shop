@@ -20,7 +20,9 @@ router.post('/login',
 
         } else {
             if (bcrypt.compareSync(req.body.password, existingUser.password)) {
-                const token = jwt.sign({email: req.body.email}, process.env.MOTDEPASSEAPP);
+                const token = jwt.sign({email: req.body.email}, process.env.MOTDEPASSEAPP,
+                //TODO { expiresIn: '1d' }
+                );
                 res.status(202).send({"token": token})
             } else {
                 res.sendStatus(401)
