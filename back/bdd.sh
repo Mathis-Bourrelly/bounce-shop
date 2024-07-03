@@ -1,4 +1,5 @@
-@echo off
+#!/bin/bash
+
 npx sequelize-cli db:seed --seed users.seeder.js
 npx sequelize-cli db:seed --seed jobQualifications.seeder.js
 npx sequelize-cli db:seed --seed validMachines.seeder.js
