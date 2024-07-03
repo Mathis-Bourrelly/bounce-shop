@@ -33,6 +33,7 @@ const initFileUploadMiddleware = (app) => {
     );
 }
 
+
 const initCorsMiddleware = (app) => {
     const corsOptions = {
         origin: 'http://localhost:3000',
