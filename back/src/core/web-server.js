@@ -14,6 +14,7 @@ const {sequelize} = require('./postgres');
 const {createServer} = require("https");
 const {readFileSync} = require("fs");
 const {join} = require("path");
+const morgan = require("morgan");
 
 class WebServer {
     app = undefined;
@@ -28,6 +29,7 @@ class WebServer {
 
     constructor() {
         this.app = express();
+        this.app.use(morgan('dev'));
         initializeConfigMiddlewares(this.app);
         this._initializeRoutes();
         initializeErrorMiddlewares(this.app);
