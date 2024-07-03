@@ -22,6 +22,7 @@ class WebServer {
     options = {
         key: readFileSync(join(__dirname, "../../key.pem")),
         cert: readFileSync(join(__dirname, "../../cert.pem")),
+        passphrase: 'bounceshop'
     };
 
     constructor() {
