@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 export default class Api {
 
     constructor() {
-        this.baseUrl = "https://35.180.252.232:4000"
+        this.baseUrl = "http://35.180.252.232:4000"
         // eslint-disable-next-line react-hooks/rules-of-hooks
         this.navigate = useNavigate()
     }
