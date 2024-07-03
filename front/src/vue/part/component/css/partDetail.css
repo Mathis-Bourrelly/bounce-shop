@@ -24,3 +24,13 @@
     color: #828282;
     font-size: 16px;
 }
+
+.description-container{
+    padding: 6px;
+    border-radius: 8px;
+    background: #F7F7F7;
+}
+
+.detail-item{
+    margin-bottom: 6px;
+}

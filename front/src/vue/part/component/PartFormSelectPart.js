@@ -6,15 +6,15 @@ import Api from "../../../API";
 import '../../search.css';
 
 const PartFormSelectPart = ({ token, onSelectedPartsChange}) => {
-    const [searchResults, setSearchResults] = useState([]);
-    const [lastSearch, setLastSearch] = useState([]);
+    const [partSearchResults, setPartSearchResults] = useState([]);
+    const [partLastSearch, setPartLastSearch] = useState([]);
     const [selectedParts, setSelectedParts] = useState([]);
     const api = new Api();
 
     const fetchSearchResults = async (query) => {
         if (query.length > 0) {
             const results = await api.getFromRoute(`parts/search?term=${query}`, token);
-            setLastSearch(results)
+            setPartLastSearch(results)
             return results.map(part => ({
                 name: part.label,
                 value: part.partID,
@@ -25,7 +25,7 @@ const PartFormSelectPart = ({ token, onSelectedPartsChange}) => {
 
     const handleAddPart = (selectedID) => {
         console.log("selectedID",selectedID)
-        const selectedPart = lastSearch.find(part => part.partID === selectedID);
+        const selectedPart = partLastSearch.find(part => part.partID === selectedID);
         console.log("selectedPart",selectedPart)
         setSelectedParts([...selectedParts, { ...selectedPart, quantity: 1 }]);
         onSelectedPartsChange(selectedParts);
@@ -43,7 +43,7 @@ const PartFormSelectPart = ({ token, onSelectedPartsChange}) => {
             <label className="title-label">Composition</label>
             <div className="form-group">
                 <SelectSearch
-                    options={searchResults}
+                    options={partSearchResults}
                     getOptions={fetchSearchResults}
                     search
                     placeholder="Rechercher une pièce par nom..."

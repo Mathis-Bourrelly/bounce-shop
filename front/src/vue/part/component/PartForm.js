@@ -4,6 +4,7 @@ import './css/partForm.css';
 import '../../App.css';
 import Api from "../../../API";
 import PartFormSelectPart from "./PartFormSelectPart";
+import PartFormSelectOperation from "./PartFormSelectOperation";
 
 const PartForm = () => {
     const {register, handleSubmit} = useForm();
@@ -13,6 +14,7 @@ const PartForm = () => {
     const [suppliers, setSuppliers] = useState([])
     const [users, setUsers] = useState([])
     const [selectedParts, setSelectedParts] = useState([]);
+    const [selectedOperations, setSelectedOperations] = useState([]);
     const [typeFilters, setTypeFilters] = useState({
         raw: false,
         bought: false,
@@ -44,39 +46,49 @@ const PartForm = () => {
         data.type = getFirstTrueType(typeFilters)
         document.getElementById("alert-server").style.display = "none"
         document.getElementById("alert-input").style.display = "none"
+        let createdRange
         try {
-        let newPart = await api.postFromRoute("parts", data, token)
-        if (typeFilters["bought"] || typeFilters["deliverable"] || typeFilters["raw"]) {
-            let priceData = {
-                price: data.price,
-                date: Date.now(),
-                partID: newPart.partID
+            let newPart = await api.postFromRoute("parts", data, token)
+            if (typeFilters["bought"] || typeFilters["deliverable"] || typeFilters["raw"]) {
+                let priceData = {
+                    price: data.price,
+                    date: Date.now(),
+                    partID: newPart.partID
+                }
+                await api.postFromRoute("parts/prices", priceData, token)
             }
-            await api.postFromRoute("parts/prices", priceData, token)
-        }
-        if (typeFilters["intermediate"] || typeFilters["deliverable"]) {
-            let rangeData = {
-                partID: newPart.partID,
-                userID: data.personInCharge
+            if (typeFilters["intermediate"] || typeFilters["deliverable"]) {
+                let rangeData = {
+                    partID: newPart.partID,
+                    userID: data.personInCharge
+                }
+                for (const selectedPart of selectedParts) {
+                    let previousPartData = {
+                        partID: selectedPart.partID,
+                        quantity: selectedPart.quantity,
+                        mainPartID: newPart.partID,
+                        prevLabel: selectedPart.label
+                    };
+                    await api.postFromRoute("parts/previousPart", previousPartData, token);
+                }
+                createdRange = await api.postFromRoute("ranges", rangeData, token)
             }
-            for (const selectedPart of selectedParts) {
-                let previousPartData = {
-                    partID: selectedPart.partID,
-                    quantity: selectedPart.quantity,
-                    mainPartID: newPart.partID,
-                    prevLabel: selectedPart.label
-                };
-                await api.postFromRoute("parts/previousPart", previousPartData, token);
+            if (typeFilters["intermediate"]) {
+                for (const selectedOperation of selectedOperations) {
+                    let previousOperationData = {
+                        rangeID: createdRange.rangeID,
+                        operationID: selectedOperation.operationID
+                    };
+                    console.log("selectedOperation============",selectedOperation)
+                    await api.postFromRoute("ranges/addOperation", previousOperationData, token);
+                }
             }
-            await api.postFromRoute("ranges", rangeData, token)
-        }
             await api.navigateTo("/part?toastData=partSuccess")
-        }
-        catch (e) {
+        } catch (e) {
             if (e === 500) {
                 document.getElementById("alert-server").style.display = "block"
             }
-            if (e === 400){
+            if (e === 400) {
                 document.getElementById("alert-input").style.display = "block"
             }
             console.log(e)
@@ -163,15 +175,15 @@ const PartForm = () => {
                     <label className="title-label">Quantité</label>
                     <input {...register('quantity')} required placeholder="Quantité" type="number"/>
                 </div>
-                {(typeFilters["bought"]) &&<div id='priceField' className="form-group">
+                {(typeFilters["bought"]) && <div id='priceField' className="form-group">
                     <label className="title-label">Prix d'achat</label>
                     <input {...register('price')} required placeholder="Prix" type="number"/>
                 </div>}
-                {(typeFilters["raw"]) &&<div id='priceField' className="form-group">
+                {(typeFilters["raw"]) && <div id='priceField' className="form-group">
                     <label className="title-label">Prix d'achat</label>
                     <input {...register('price')} required placeholder="Prix" type="number"/>
                 </div>}
-                {(typeFilters["deliverable"]) &&<div id='priceField' className="form-group">
+                {(typeFilters["deliverable"]) && <div id='priceField' className="form-group">
                     <label className="title-label">Prix de vente</label>
                     <input {...register('price')} required placeholder="Prix" type="number"/>
                 </div>}
@@ -187,7 +199,7 @@ const PartForm = () => {
                     </select>
                 </div>}
 
-                {(typeFilters["raw"] || typeFilters["bought"]) &&<div id='supplierField' className="form-group">
+                {(typeFilters["raw"] || typeFilters["bought"]) && <div className="form-group">
                     <label className="title-label">Fournisseur</label>
                     <div className="form-group">
                         <select {...register('supplierID')} required>
@@ -200,41 +212,18 @@ const PartForm = () => {
                     </div>
                 </div>}
 
-                {(typeFilters["intermediate"] || typeFilters["deliverable"]) &&<div id="prevPartField">
+                {(typeFilters["intermediate"] || typeFilters["deliverable"]) &&
                     <PartFormSelectPart token={token} onSelectedPartsChange={setSelectedParts}/>
-                </div>}
+                }
 
-                {typeFilters["intermediate"] && <div className="card">
-                    <label className="title-label">Opération</label>
-                    <div className="form-group  ">
-                        <input placeholder="Rechercher une opérations..."/>
-                        <button type="button" className="btn-color">Ajouter l'opération</button>
-                    </div>
-                    <table className="styled-table">
-                        <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Temps de travail</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Row 2</td>
-                            <td>Row 2</td>
-                        </tr>
-                        <tr>
-                            <td>Row 2</td>
-                            <td>Row 2</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>}
-                <div className="card-alert" id="alert-server" style={{display:"none"}}>
+                {typeFilters["intermediate"] &&
+                    <PartFormSelectOperation token={token} onSelectedOperationsChange={setSelectedOperations}/>
+                }
+                <div className="card-alert" id="alert-server" style={{display: "none"}}>
                     Erreur serveur, veuillez réessayer ultérieurement.
                 </div>
-                <div className="card-alert" id="alert-input" style={{display:"none"}}>
-                   Veuillez remplir tout les champs et sélectionner un type.
+                <div className="card-alert" id="alert-input" style={{display: "none"}}>
+                    Veuillez remplir tout les champs et sélectionner un type.
                 </div>
                 <button type="submit" className="btn-color">Enregister</button>
             </form>

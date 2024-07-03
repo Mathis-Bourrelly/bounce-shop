@@ -72,6 +72,7 @@
     left: 0;
     border-radius: 8px;
     display: none;
+    z-index: 10;
 }
 
 .select-search-container:not(.select-search-is-multiple).select-search-has-focus .select-search-select {
@@ -114,9 +115,8 @@
     background: #E0E0E0;
 }
 
-.select-search-is-selected {
-    font-weight: bold;
-    color: #ffffff;
+.select-search-is-selected:hover {
+    background: #E0E0E0;
 }
 
 .select-search-group-header {

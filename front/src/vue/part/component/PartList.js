@@ -21,7 +21,7 @@ const Table = () => {
         intermediate: false,
         deliverable: false
     });
-    const itemPerPage = 13;
+    const itemPerPage = 12;
     const api = new Api();
     const queryParameters = new URLSearchParams(window.location.search)
     const toastData = queryParameters.get("toastData")

@@ -4,6 +4,8 @@ import Login from "./Login"
 import PartAll from "./part/PartAll"
 import PartNew from "./part/PartNew";
 import PartDetail from "./part/PartDetail";
+import OperationNew from "./operation/OperationNew";
+import OperationAll from "./operation/OperationAll";
 
 function App() {
 
@@ -13,6 +15,10 @@ function App() {
       <Route path="/part" element={<PartAll/>}/>
       <Route path="/part/new" element={<PartNew/>}/>
       <Route path="/part/:partID" element={<PartDetail/>}/>
+
+      <Route path="/operation" element={<OperationAll/>}/>
+      <Route path="/operation/new" element={<OperationNew/>}/>
+      <Route path="/operation/:operationID" element={<PartDetail/>}/>
     </Routes>
   </BrowserRouter>)
 }

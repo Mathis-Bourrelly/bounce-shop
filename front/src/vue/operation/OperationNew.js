@@ -1,22 +1,22 @@
 import React from "react"
 import SideMenu from "../component/SideMenu";
 import Navbar from "../component/Navbar";
-import PartForm from "./component/PartForm";
+import OperationForm from "./component/OperationForm";
 
-const PartNew = () => {
-    const pageName = "part-new"
-    const pageTitle = "Nouvelle pièce"
+const OperationNew = () => {
+    const pageName = "operation-new"
+    const pageTitle = "Nouvelle opération"
     return (
         <>
             <SideMenu page={pageName}/>
             <div className="main-content">
                 <Navbar page={pageTitle}/>
                 <div className="content">
-                    <PartForm/>
+                    <OperationForm/>
                 </div>
             </div>
         </>
     );
 };
 
-export default PartNew
+export default OperationNew

@@ -6,6 +6,7 @@ import Api from "../../API";
 import {useParams} from "react-router-dom";
 import PreviousParts from "./component/PreviousParts";
 import PricesParts from "./component/PricesParts";
+import OperationList from "./component/OperationList";
 
 const PartDetail = () => {
     let {partID} = useParams();
@@ -65,23 +66,24 @@ const PartDetail = () => {
                                         </div>
                                         {part.Range && (
                                             <div className="detail-item">
-                                                <strong>Gamme :</strong><span
+                                                <strong>Gamme : </strong><span
                                                 className="range-badge"></span>{part.Range.rangeID}
                                             </div>
                                         )}
                                         {part.Supplier && (
                                             <div className="detail-item">
-                                                <strong>Supplier: </strong>{part.Supplier.name}
+                                                <strong>Fournisseur : </strong>{part.Supplier.name}
                                             </div>
                                         )}
                                         <div className="detail-item">
                                             <div className="sm-text">{part.quantity} pieces available</div>
                                         </div>
                                         <div className="detail-item">
-                                            {part.Prices[0] &&<><strong>{part.Prices[0].price}€</strong><span className="sm-text"> /pièce</span></>}
+                                            {part.Prices[0] && <><strong>{part.Prices[0].price}€</strong><span
+                                                className="sm-text"> /pièce</span></>}
                                         </div>
-
-                                        <p>{part.description}</p>
+                                        <strong>Description : </strong>
+                                        <div className="description-container">{part.description}</div>
                                     </div>
                                 </div>
                             </div>
@@ -93,6 +95,12 @@ const PartDetail = () => {
                                 <div className="card-left">
                                     <div className="detail-title">Prix</div>
                                     <PricesParts prices={part.Prices}/>
+                                </div>
+                            </div>
+                            <div className="container-column">
+                                <div className="card-fit">
+                                    <div className="detail-title">Opérations</div>
+                                    <OperationList operations={part.Range.Operations} api={api}/>
                                 </div>
                             </div>
                         </div>

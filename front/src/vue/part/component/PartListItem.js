@@ -18,7 +18,7 @@ const PartListItem = ({part, api}) => {
                 {part.type === "I" && <span className="type-badge intermediate">Intermédiaire</span>}
             </td>
             <td>{part.quantity}</td>
-            <td><strong>{part.price}</strong> €</td>
+            <td>{part.price ? <strong>{part.price} €</strong> : null}</td>
             <td>...</td>
         </tr>
     );
