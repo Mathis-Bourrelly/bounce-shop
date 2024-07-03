@@ -20,8 +20,8 @@ class WebServer {
     port = 4000;
     server = undefined;
     options = {
-        key: readFileSync(join(__dirname, "key.pem")),
-        cert: readFileSync(join(__dirname, "cert.pem")),
+        key: readFileSync(join(__dirname, "../../key.pem")),
+        cert: readFileSync(join(__dirname, "../../cert.pem")),
     };
 
     constructor() {
