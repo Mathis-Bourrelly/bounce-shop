@@ -34,7 +34,7 @@ const PartFormSelectOperation = ({ token, onSelectedOperationsChange}) => {
 
 
     return (
-        <div className="card">
+        <div className="card-fit-95">
             <label className="title-label">Opération</label>
             <div className="form-group">
                 <SelectSearch
