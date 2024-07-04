@@ -11,25 +11,16 @@ const operationHistoryRoute = require('../route/operationHistory.route');
 const loginRoute = require('../route/login.route');
 
 const {sequelize} = require('./postgres');
-const {createServer} = require("https");
-const {readFileSync} = require("fs");
-const {join} = require("path");
-const morgan = require("morgan");
+
 
 class WebServer {
     app = undefined;
     port = 4000;
     server = undefined;
-    options = {
-        key: readFileSync(join(__dirname, "../../key.pem")),
-        cert: readFileSync(join(__dirname, "../../cert.pem")),
-        passphrase: 'bounceshop'
 
-    };
 
     constructor() {
         this.app = express();
-        this.app.use(morgan('dev'));
         initializeConfigMiddlewares(this.app);
         this._initializeRoutes();
         initializeErrorMiddlewares(this.app);
@@ -37,8 +28,7 @@ class WebServer {
     }
 
     start() {
-        this.server = createServer(this.options,this.app)
-        this.app.listen(this.port, () => {
+    this.server = this.app.listen(this.port, () => {
             console.log(`app listening on port ${this.port}`);
         });
     }
