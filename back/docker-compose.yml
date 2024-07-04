@@ -11,6 +11,7 @@ services:
     volumes:
       - .:/app
       - /back/node_modules
+      - /back/database.sql
     environment:
       - DB_USER=BOUNCEUSER
       - DB_PASSWORD=BounceShop!13
