@@ -39,7 +39,7 @@ const PartFormSelectPart = ({ token, onSelectedPartsChange}) => {
     };
 
     return (
-        <div className="card">
+        <div className="card-fit-95">
             <label className="title-label">Composition</label>
             <div className="form-group">
                 <SelectSearch
