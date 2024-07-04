@@ -36,7 +36,7 @@ const initFileUploadMiddleware = (app) => {
 
 const initCorsMiddleware = (app) => {
     const corsOptions = {
-        origin: ['https://bounceshop.eterny.fr','http://localhost:3000'],
+        origin: ['https://main.dhs0muaykmz81.amplifyapp.com','http://localhost:3000'],
     };
 
     app.use(cors(corsOptions));
